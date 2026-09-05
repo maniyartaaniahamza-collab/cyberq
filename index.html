@@ -1,0 +1,2573 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#030303">
+  <title>CyberQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;display=swap" rel="stylesheet">
+  <style>
+
+
+
+:root {
+  --color-bg: #030303;
+  --color-text: #f0f0f0;
+  --color-accent: #a8a894;
+  --color-muted: #909090;
+  --color-surface: #f0f0f0;
+  --color-border: #303030;
+  --color-btn-bg: #ffffff;
+  --color-btn-text: #030303;
+  --font-display: 'Geist Mono', monospace;
+  --font-body: 'Geist Mono', monospace;
+  --text-hero: clamp(2.25rem, 5.2vw, 3.875rem);
+  --text-heading: clamp(1.875rem, 4vw, 3.25rem);
+  --text-display: clamp(1.375rem, 2.4vw, 2rem);
+  --text-body: 1rem;
+  --text-small: 0.75rem;
+  --radius: 10px;
+  --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 18px 40px rgba(0, 0, 0, 0.38);
+  --shadow-lg: 0 34px 80px rgba(0, 0, 0, 0.5);
+  --section-padding: 7rem;
+  --container-width: 85rem;
+  --container-padding: 1.5rem;
+  --gap: 2rem;
+  --gap-sm: 1rem;
+  --gap-lg: 4rem;
+  --btn-radius: 6px;
+  --btn-pad-y: 0.7rem;
+  --btn-pad-x: 1.4rem;
+  --btn-weight: 500;
+}
+
+
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html, body { overflow-x: hidden; max-width: 100%; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, video, svg { max-width: 100%; height: auto; display: block; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+h1 { font-size: var(--text-hero); letter-spacing: -0.035em; }
+h2 { font-size: var(--text-heading); }
+h3 { font-size: var(--text-display); }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: var(--text-small); text-transform: uppercase; letter-spacing: 0.08em; }
+a { color: inherit; text-decoration: none; transition: opacity .2s ease, color .2s ease; }
+a:hover { opacity: .75; }
+ul, ol { list-style: none; }
+figure { margin: 0; }
+figcaption { font-size: var(--text-small); opacity: .7; margin-top: .5rem; }
+dl dt { font-weight: 600; }
+dl dd { opacity: .7; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+input, textarea, select {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+  width: 100%;
+  outline: none;
+  transition: border-color .2s ease;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--color-accent); }
+hr { border: 0; height: 1px; background: var(--color-border); }
+::selection { background: var(--color-accent); color: var(--color-bg); }
+
+
+
+/* snippet: header.center-stack-reveal */
+.csrv {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  background: var(--color-bg);
+}
+.csrv__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.csrv__image {
+  position: absolute;
+  inset: 0;
+}
+.csrv__image > img,
+.csrv__image > picture,
+.csrv__image > picture > img,
+.csrv__image > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.csrv__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(3,3,3,0.22),
+    rgba(3,3,3,0.72)
+  );
+  pointer-events: none;
+}
+.csrv__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--container-width);
+  margin: auto;
+  padding: var(--container-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap);
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: transform, opacity;
+}
+.csrv__image {
+  opacity: 0;
+  transform: scale(1.05);
+  will-change: transform, opacity;
+}
+
+.csrv[data-csrv-state="in"] .csrv__content {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) 0.45s,
+    transform 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) 0.45s;
+}
+.csrv[data-csrv-state="in"] .csrv__image {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 1.2s ease-out 0s,
+    transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+.csrv[data-csrv-instant] .csrv__content,
+.csrv[data-csrv-instant] .csrv__image {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .csrv {
+    min-height: 88vh;
+  }
+}
+
+/* snippet: features.tabs-media-overlay */
+.tmo {
+  position: relative;
+  background: var(--color-bg);
+  color: var(--color-text);
+  padding: var(--section-padding) 0;
+}
+
+.tmo__inner {
+  width: min(var(--container-width), 100%);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.tmo__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-lg);
+  margin-bottom: var(--gap-lg);
+}
+
+.tmo__head-start {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.tmo__eyebrow {
+  margin: 0;
+  font-size: var(--text-small);
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.tmo__title {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+}
+
+.tmo__head-end {
+  flex: 0 1 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  padding-top: 2rem;
+}
+
+.tmo__tabs {
+  display: flex;
+  border-top: 1px solid var(--color-border);
+}
+
+.tmo__tab {
+  flex: 1 1 0;
+  margin: 0;
+  padding: var(--gap) var(--gap-sm);
+  border: none;
+  border-right: 1px solid var(--color-border);
+  background: none;
+  font: inherit;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-muted);
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.tmo__tab:last-child {
+  border-right: 1px solid var(--color-border);
+}
+
+.tmo__tab:first-child {
+  border-left: 1px solid var(--color-border);
+}
+
+.tmo__tab[aria-selected="true"] {
+  color: var(--color-text);
+  font-weight: 600;
+  background: #0c0c0c;
+}
+
+.tmo__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tmo__tab[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+.tmo__stage {
+  display: grid;
+  grid-template: "stage" 1fr / 1fr;
+  background: #111111;
+}
+
+.tmo__panel {
+  grid-area: stage;
+  display: grid;
+  grid-template: "cell" 1fr / 1fr;
+  min-height: 28rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tmo__panel:first-child {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tmo--ready .tmo__panel {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.tmo--ready .tmo__panel.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tmo__media {
+  grid-area: cell;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 28rem;
+}
+
+.tmo__media img,
+.tmo__media picture,
+.tmo__media picture > img,
+.tmo__media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tmo__card {
+  grid-area: cell;
+  z-index: 1;
+  align-self: end;
+  justify-self: start;
+  margin: var(--gap-lg);
+  max-width: 50%;
+  padding: var(--gap-lg);
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+
+.tmo__card:empty {
+  display: none;
+}
+
+.tmo__nav {
+  display: none;
+}
+
+.tmo--ready .tmo__card {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+
+.tmo--ready .tmo__panel.is-active .tmo__card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1024px) {
+  .tmo__head {
+    flex-direction: column;
+    gap: var(--gap);
+  }
+
+  .tmo__head-end {
+    flex: none;
+    padding-top: 0;
+  }
+
+  .tmo__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tmo__tab {
+    flex: 0 0 auto;
+    min-width: 9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tmo__tabs {
+    display: none;
+  }
+
+  .tmo__stage {
+    display: block;
+    background: none;
+  }
+
+  .tmo__panel {
+    display: none;
+    min-height: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+  }
+
+  .tmo__panel:first-child {
+    display: block;
+  }
+
+  .tmo--ready .tmo__panel:not(.is-active) {
+    display: none;
+  }
+
+  .tmo--ready .tmo__panel.is-active {
+    display: block;
+  }
+
+  .tmo__media {
+    display: none;
+  }
+
+  .tmo__card,
+  .tmo--ready .tmo__card,
+  .tmo--ready .tmo__panel.is-active .tmo__card {
+    max-width: none;
+    margin: 0;
+    padding: var(--gap-lg);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .tmo__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--gap);
+  }
+
+  .tmo__dots {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+  }
+
+  .tmo__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: rgba(240,240,240,0.20);
+    transition: background 0.2s ease, width 0.2s ease, border-radius 0.2s ease;
+  }
+
+  .tmo__dot.is-active {
+    width: 1.25rem;
+    border-radius: 0.25rem;
+    background: var(--color-accent, var(--color-text));
+  }
+
+  .tmo__prev,
+  .tmo__next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .tmo__prev:hover,
+  .tmo__next:hover {
+    background: #111111;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmo--ready .tmo__panel {
+    transition: none;
+  }
+
+  .tmo--ready .tmo__card {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .tmo__tab::after {
+    transition: none;
+  }
+
+  .tmo__tab {
+    transition: none;
+  }
+}
+
+/* snippet: features.media-scroll-expand */
+.mse {
+  position: relative;
+  display: block;
+  background: var(--color-bg);
+  padding: var(--section-padding);
+}
+
+.mse__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-lg);
+  align-items: center;
+  transition:
+    grid-template-columns 1.1s cubic-bezier(0.22, 0.61, 0.36, 1),
+    gap 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.mse--expanded .mse__inner {
+  grid-template-columns: 0fr 1fr;
+  gap: 0;
+}
+
+.mse__text {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap);
+  min-width: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease;
+}
+
+.mse--expanded .mse__text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mse--hidden .mse__text {
+  display: none;
+}
+
+.mse__media {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.mse__media img,
+.mse__media video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+}
+
+@media (max-width: 1024px) {
+  .mse {
+    padding-block: var(--gap-lg);
+  }
+  .mse__inner,
+  .mse--expanded .mse__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-lg);
+    transition: none;
+  }
+  .mse__text,
+  .mse--expanded .mse__text,
+  .mse--hidden .mse__text {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .mse__inner,
+  .mse--expanded .mse__inner {
+    grid-template-columns: 1fr;
+  }
+  .mse__text,
+  .mse__media {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mse__inner,
+  .mse__text {
+    transition: none;
+  }
+}
+
+
+
+.container{width:100%;max-width:var(--container-width);margin:0 auto;padding:0 var(--container-padding);}
+.section{padding:var(--section-padding) var(--container-padding);}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap-lg);align-items:center;}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap);}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);}
+.stack{display:flex;flex-direction:column;gap:var(--gap);}
+.stack-sm{display:flex;flex-direction:column;gap:var(--gap-sm);}
+.flex-between{display:flex;align-items:center;justify-content:space-between;gap:var(--gap);flex-wrap:wrap;}
+.mb-sm{margin-bottom:var(--gap-sm);}
+.mb{margin-bottom:var(--gap);}
+.mb-lg{margin-bottom:var(--gap-lg);}
+.text-center{text-align:center;}
+.text-muted{color:var(--color-muted);}
+
+.m-btn-icon{display:inline-flex;align-items:center;justify-content:center;width:2.5rem;height:2.5rem;border-radius:var(--btn-radius);background:transparent;border:1px solid var(--color-border);color:inherit;font-size:var(--text-small);cursor:pointer;transition:border-color .25s ease,background .25s ease;}
+
+
+.m-btn-icon:hover{border-color:var(--color-accent);background:rgba(168,168,148,0.14);}
+
+
+.m-card{background:rgba(240,240,240,0.06);border:1px solid var(--color-border);border-radius:var(--radius);padding:var(--gap);box-shadow:var(--shadow-sm);transition:border-color .3s ease,transform .3s ease;}
+
+
+.m-card:hover{border-color:#727267;}
+
+
+.m-card-highlight{background:var(--color-surface);color:var(--color-bg);border:1px solid var(--color-surface);border-radius:var(--radius);padding:var(--gap);box-shadow:var(--shadow-md);}
+
+
+.m-section-alt{background:var(--color-surface);color:var(--color-bg);}
+
+
+.m-nav{position:sticky;top:0;z-index:50;background:var(--color-bg);border-bottom:1px solid var(--color-border);}
+
+
+.m-nav .nav-inner{max-width:var(--container-width);margin:0 auto;padding:0.9rem var(--container-padding);display:flex;align-items:center;justify-content:space-between;gap:var(--gap);}
+
+
+.m-nav .logo{font-family:var(--font-display);font-size:var(--text-body);font-weight:500;letter-spacing:-0.02em;color:var(--color-text);text-decoration:none;}
+
+
+.m-nav .nav-links{list-style:none;display:flex;align-items:center;gap:var(--gap);margin:0;padding:0;}
+
+
+.m-nav .nav-links a{font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.1em;text-transform:uppercase;color:var(--color-muted);text-decoration:none;transition:color .25s ease;}
+
+
+.m-nav .nav-links a:hover{color:var(--color-text);}
+
+
+.m-nav .nav-toggle{display:none;background:transparent;border:1px solid var(--color-border);border-radius:var(--btn-radius);color:var(--color-text);font-size:var(--text-body);width:2.5rem;height:2.5rem;align-items:center;justify-content:center;cursor:pointer;}
+
+
+.m-footer{background:var(--color-bg);border-top:1px solid var(--color-border);padding:var(--gap-lg) var(--container-padding);}
+
+
+.m-footer a{font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.06em;color:var(--color-muted);text-decoration:none;}
+
+
+.m-footer a:hover{color:var(--color-text);}
+
+
+.m-input{width:100%;font-family:var(--font-body);font-size:var(--text-body);padding:0.8rem 1rem;background:transparent;border:1px solid var(--color-border);border-radius:var(--btn-radius);color:inherit;transition:border-color .25s ease;}
+
+
+.m-input::placeholder{color:var(--color-muted);}
+
+
+.m-input:focus{outline:none;border-color:var(--color-accent);}
+
+
+.m-toggle{position:relative;display:inline-flex;align-items:center;width:3.25rem;height:1.75rem;border-radius:999px;border:1px solid var(--color-border);background:transparent;cursor:pointer;transition:background .25s ease;}
+
+
+.m-toggle::after{content:"";position:absolute;left:0.2rem;width:1.1rem;height:1.1rem;border-radius:999px;background:var(--color-accent);transition:transform .25s ease;}
+
+
+.m-toggle[aria-pressed="true"]{background:rgba(168,168,148,0.30);}
+
+
+.m-toggle[aria-pressed="true"]::after{transform:translateX(1.45rem);}
+
+
+.m-tab{font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 0.2rem;background:transparent;border:none;border-bottom:1px solid transparent;color:var(--color-muted);cursor:pointer;transition:color .25s ease,border-color .25s ease;}
+
+
+.m-tab:hover{color:inherit;}
+
+
+.m-tab[aria-selected="true"],.m-tab.is-active{color:inherit;border-bottom-color:var(--color-accent);}
+
+
+.m-icon{display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;border-radius:var(--btn-radius);border:1px solid var(--color-border);color:var(--color-accent);font-size:var(--text-small);}
+
+
+.m-quote{font-family:var(--font-display);font-size:var(--text-display);font-weight:400;line-height:1.35;letter-spacing:-0.015em;margin:0;}
+
+
+.m-accordion{border-top:1px solid var(--color-border);padding:1.2rem 0;}
+
+
+.m-accordion summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:var(--gap-sm);font-family:var(--font-body);font-size:var(--text-body);cursor:pointer;}
+
+
+.m-accordion summary::-webkit-details-marker{display:none;}
+
+
+.m-accordion summary::after{content:"+";color:var(--color-accent);}
+
+
+.m-accordion[open] summary::after{content:"\2013";}
+
+
+.m-accordion p{margin-top:0.9rem;font-size:var(--text-body);opacity:.7;}
+
+
+
+.grain-veil{position:relative;}
+.grain-veil::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(240,240,240,0.12) 1px,transparent 1px);background-size:3px 3px;opacity:.25;}
+.tint-media{position:relative;overflow:hidden;border-radius:var(--radius);}
+.tint-media img{filter:grayscale(0.35) contrast(1.05) brightness(0.9);}
+.tint-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(3,3,3,0.75) 100%);}
+.rule-top{border-top:1px solid var(--color-border);padding-top:var(--gap);}
+.mono-meta{font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.16em;text-transform:uppercase;color:var(--color-muted);}
+.stat-figure{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.25rem);font-weight:400;letter-spacing:-0.04em;line-height:1;}
+.watermark-word{font-family:var(--font-display);font-size:clamp(4rem,18vw,14rem);line-height:0.85;letter-spacing:-0.05em;opacity:.14;overflow:hidden;white-space:nowrap;}
+.edge-glow{position:relative;}
+.edge-glow::before{content:"";position:absolute;inset:-1px;border-radius:var(--radius);background:linear-gradient(140deg,rgba(168,168,148,0.45),transparent 55%);z-index:-1;}
+.fade-bottom{-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 70%,transparent 100%);}
+
+
+
+/* section: section02 */
+[data-generated-section="section02"].hero-copy,[data-generated-section="section02"] .hero-copy {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-sm);
+  text-align: left;
+  max-width: 46rem;
+  padding-left: var(--gap);
+  border-left: 1px solid rgba(240,240,240,0.28);
+}[data-generated-section="section02"].hero-copy__title,[data-generated-section="section02"] .hero-copy__title {
+  color: var(--color-text);
+  overflow-wrap: break-word;
+  margin-top: var(--gap-sm);
+}[data-generated-section="section02"].hero-copy__title-soft,[data-generated-section="section02"] .hero-copy__title-soft {
+  color: rgba(240,240,240,0.55);
+}[data-generated-section="section02"].hero-copy__lede,[data-generated-section="section02"] .hero-copy__lede {
+  color: rgba(240,240,240,0.88);
+  max-width: 28rem;
+  margin: 0;
+}[data-generated-section="section02"].hero-copy__actions,[data-generated-section="section02"] .hero-copy__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-top: var(--gap-sm);
+}[data-generated-section="section02"].hero-logos,[data-generated-section="section02"] .hero-logos {
+  align-self: stretch;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-top: var(--gap-lg);
+  --brand-logo-size: 3.5rem;
+  color: rgba(240,240,240,0.78);
+}
+@media (max-width: 768px) {[data-generated-section="section02"].hero-logos,[data-generated-section="section02"] .hero-logos {
+  justify-content: flex-start;
+  gap: var(--gap-sm);
+}[data-generated-section="section02"].hero-copy,[data-generated-section="section02"] .hero-copy {
+  padding-left: var(--gap-sm);
+}
+}
+
+/* section: section03 */
+[data-generated-section="section03"].section03-intro,[data-generated-section="section03"] .section03-intro{display:flex;flex-direction:column;align-items:flex-start;gap:var(--gap-sm);max-width:62rem;margin-bottom:calc(var(--gap-lg) * 1.5);}
+[data-generated-section="section03"].section03-title,[data-generated-section="section03"] .section03-title{max-width:30ch;margin-top:var(--gap-sm);}
+[data-generated-section="section03"].section03-lede,[data-generated-section="section03"] .section03-lede{max-width:44ch;margin:var(--gap-sm) 0 0;}
+[data-generated-section="section03"].section03-cta,[data-generated-section="section03"] .section03-cta{margin-top:var(--gap-sm);display:flex;align-items:center;}
+[data-generated-section="section03"].section03-stats,[data-generated-section="section03"] .section03-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin:0;padding-top:var(--gap);border-top:1px solid rgba(3,3,3,0.16);}
+[data-generated-section="section03"].section03-stat,[data-generated-section="section03"] .section03-stat{display:flex;flex-direction:column-reverse;justify-content:space-between;gap:calc(var(--gap-lg) * 1.25);min-height:11rem;padding-left:var(--gap);border-left:1px solid rgba(3,3,3,0.16);}
+[data-generated-section="section03"].section03-value,[data-generated-section="section03"] .section03-value{margin:0;}
+@media (max-width:720px){[data-generated-section="section03"].section03-stats,[data-generated-section="section03"] .section03-stats{grid-template-columns:1fr;}[data-generated-section="section03"].section03-stat,[data-generated-section="section03"] .section03-stat{gap:var(--gap);min-height:0;}}
+
+/* section: section05 */
+[data-generated-section="section05"].ind-intro__copy,[data-generated-section="section05"] .ind-intro__copy {
+  margin: 0;
+  color: var(--color-muted);
+}[data-generated-section="section05"].ind-intro__actions,[data-generated-section="section05"] .ind-intro__actions {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* section: section06 */
+[data-generated-section="section06"].section06-head,[data-generated-section="section06"] .section06-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--gap-sm);max-width:44rem;margin:0 auto var(--gap-lg);}
+[data-generated-section="section06"].section06-head p,[data-generated-section="section06"] .section06-head p{max-width:28rem;margin:0;}
+[data-generated-section="section06"].section06-cta,[data-generated-section="section06"] .section06-cta{display:flex;justify-content:center;margin-top:var(--gap-sm);}
+[data-generated-section="section06"].section06-grid,[data-generated-section="section06"] .section06-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--gap-sm);list-style:none;margin:0;padding:0;align-items:stretch;}
+[data-generated-section="section06"].section06-panel,[data-generated-section="section06"] .section06-panel{position:relative;overflow:hidden;isolation:isolate;background:var(--color-bg);}
+[data-generated-section="section06"].section06-panel--open,[data-generated-section="section06"] .section06-panel--open{aspect-ratio:6/5;}
+[data-generated-section="section06"].section06-img,[data-generated-section="section06"] .section06-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(0.72) brightness(0.6) contrast(1.05);}
+[data-generated-section="section06"].section06-panel::after,[data-generated-section="section06"] .section06-panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,var(--color-bg));opacity:0.55;pointer-events:none;}
+[data-generated-section="section06"].section06-overlay,[data-generated-section="section06"] .section06-overlay{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:var(--gap);gap:var(--gap-sm);color:var(--color-text);}
+[data-generated-section="section06"].section06-brand,[data-generated-section="section06"] .section06-brand{display:inline-flex;align-items:center;color:#fff!important;}
+[data-generated-section="section06"].section06-quote,[data-generated-section="section06"] .section06-quote{margin:var(--gap-lg) 0 0;padding:0;max-width:24rem;border:0;}
+[data-generated-section="section06"].section06-quote p,[data-generated-section="section06"] .section06-quote p{margin:0;}
+[data-generated-section="section06"].section06-author,[data-generated-section="section06"] .section06-author{margin-top:auto;display:flex;flex-direction:column;}
+[data-generated-section="section06"].section06-plus,[data-generated-section="section06"] .section06-plus{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border:1px solid var(--color-text);color:var(--color-text);}
+@media (max-width:900px){[data-generated-section="section06"].section06-grid,[data-generated-section="section06"] .section06-grid{grid-template-columns:1fr;}[data-generated-section="section06"].section06-panel,[data-generated-section="section06"] .section06-panel{aspect-ratio:4/5;}[data-generated-section="section06"].section06-panel--open,[data-generated-section="section06"] .section06-panel--open{aspect-ratio:4/5;}}
+
+/* section: section08 */
+[data-generated-section="section08"].cta-copy,[data-generated-section="section08"] .cta-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-sm);
+  max-width: 32rem;
+}[data-generated-section="section08"].cta-copy h2,[data-generated-section="section08"] .cta-copy h2 {
+  overflow-wrap: break-word;
+}[data-generated-section="section08"].cta-copy p,[data-generated-section="section08"] .cta-copy p {
+  color: var(--color-muted);
+  margin: 0;
+}[data-generated-section="section08"].cta-actions,[data-generated-section="section08"] .cta-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  margin-top: var(--gap);
+}[data-generated-section="section08"].cta-shot,[data-generated-section="section08"] .cta-shot {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* section: section09 */
+[data-generated-section="section09"].section09-inner,[data-generated-section="section09"] .section09-inner{width:100%;max-width:var(--container-width);margin:0 auto;overflow-x:clip;}
+[data-generated-section="section09"].section09-cta,[data-generated-section="section09"] .section09-cta{align-items:center;padding-bottom:var(--gap);border-bottom:1px solid var(--color-border);}
+[data-generated-section="section09"].section09-grid,[data-generated-section="section09"] .section09-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:var(--gap);padding:var(--gap-lg) 0 var(--gap);align-items:start;}
+[data-generated-section="section09"].section09-brandcol,[data-generated-section="section09"] .section09-brandcol{display:flex;flex-direction:column;gap:var(--gap-sm);align-items:flex-start;}
+[data-generated-section="section09"].section09-brand,[data-generated-section="section09"] .section09-brand{text-decoration:none;}
+[data-generated-section="section09"].section09-brandnote,[data-generated-section="section09"] .section09-brandnote{display:block;max-width:18rem;}
+[data-generated-section="section09"].section09-col ul,[data-generated-section="section09"] .section09-col ul{list-style:none;margin:var(--gap-sm) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--gap-sm);align-items:flex-start;}
+[data-generated-section="section09"].section09-mark,[data-generated-section="section09"] .section09-mark{display:block;width:100%;overflow:hidden;margin-top:var(--gap);}
+[data-generated-section="section09"].section09-watermark,[data-generated-section="section09"] .section09-watermark{display:block;text-align:right;}
+[data-generated-section="section09"].section09-legal,[data-generated-section="section09"] .section09-legal{display:flex;justify-content:flex-start;padding-top:var(--gap-sm);}
+@media (max-width:900px){[data-generated-section="section09"].section09-grid,[data-generated-section="section09"] .section09-grid{grid-template-columns:1fr 1fr;gap:var(--gap-lg) var(--gap);}}
+@media (max-width:600px){[data-generated-section="section09"].section09-grid,[data-generated-section="section09"] .section09-grid{grid-template-columns:1fr;}[data-generated-section="section09"].section09-watermark,[data-generated-section="section09"] .section09-watermark{text-align:left;}}
+
+
+
+.m-hero{font-family:var(--font-display);font-size:var(--text-hero);font-weight:400;line-height:1.02;letter-spacing:-0.035em;color:var(--color-text);margin:0;}
+
+
+.m-heading{font-family:var(--font-display);font-size:var(--text-heading);font-weight:400;line-height:1.08;letter-spacing:-0.03em;color:var(--color-text);margin:0;}
+
+
+.m-display{font-family:var(--font-display);font-size:var(--text-display);font-weight:400;line-height:1.2;letter-spacing:-0.02em;color:var(--color-text);margin:0;}
+
+
+.m-label{font-family:var(--font-body);font-size:var(--text-small);font-weight:500;line-height:1.2;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent);margin:0;}
+
+
+.m-caption{font-family:var(--font-body);font-size:var(--text-small);font-weight:400;line-height:1.5;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-muted);margin:0;}
+
+
+.m-badge{display:inline-flex;align-items:center;gap:0.4rem;font-family:var(--font-body);font-size:var(--text-small);font-weight:500;letter-spacing:0.14em;text-transform:uppercase;line-height:1;padding:0.4rem 0.75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);}
+
+
+.m-btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.06em;font-weight:var(--btn-weight);border-radius:var(--btn-radius);padding:var(--btn-pad-y) var(--btn-pad-x);background:var(--color-btn-bg);color:var(--color-btn-text);border:1px solid var(--color-btn-bg);text-decoration:none;cursor:pointer;transition:opacity .25s ease,background .25s ease,color .25s ease;}
+
+
+.m-btn:hover{background:#efefec;border-color:#efefec;}
+
+
+.m-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.06em;font-weight:var(--btn-weight);border-radius:var(--btn-radius);padding:var(--btn-pad-y) var(--btn-pad-x);background:transparent;color:inherit;border:1px solid var(--color-border);text-decoration:none;cursor:pointer;transition:border-color .25s ease,opacity .25s ease;}
+
+
+.m-btn-outline:hover{border-color:var(--color-accent);opacity:.85;}
+
+
+.m-link{font-family:var(--font-body);font-size:var(--text-small);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);text-decoration:none;border-bottom:1px solid rgba(168,168,148,0.50);padding-bottom:0.15rem;transition:opacity .25s ease;}
+
+
+.m-link:hover{opacity:.7;}
+
+.m-section-alt { background: var(--color-surface); color: var(--color-bg); }
+:is(.m-section-alt, .m-card-highlight) :is(.m-hero, .m-heading, .m-display, .m-label, .m-caption) { color: var(--color-bg); }
+:is(.m-section-alt, .m-card-highlight) .m-card:not(.m-card-highlight) { color: var(--color-text); }
+:is(.m-section-alt, .m-card-highlight) .m-card:not(.m-card-highlight) :is(.m-hero, .m-heading, .m-display, .m-label, .m-caption) { color: var(--color-text); }
+
+
+
+/* motion: word-reveal */
+[data-motion~="word-reveal"] [data-motion-word] { display: inline-block; opacity: 0; transform: translateY(0.4em); transition: opacity 480ms ease, transform 480ms ease; }
+[data-motion~="word-reveal"].is-visible [data-motion-word] { opacity: 1; transform: translateY(0); }
+[data-motion~="word-reveal"].is-visible [data-motion-word]:nth-child(2) { transition-delay: 60ms; }
+[data-motion~="word-reveal"].is-visible [data-motion-word]:nth-child(3) { transition-delay: 120ms; }
+[data-motion~="word-reveal"].is-visible [data-motion-word]:nth-child(4) { transition-delay: 180ms; }
+[data-motion~="word-reveal"].is-visible [data-motion-word]:nth-child(n+5) { transition-delay: 240ms; }
+
+/* motion: stagger-rise */
+[data-motion~="stagger-rise"] > * { opacity: 0; transform: translateY(var(--gap-sm)); transition: opacity 620ms ease, transform 620ms ease; }
+[data-motion~="stagger-rise"].is-visible > * { opacity: 1; transform: translateY(0); }
+[data-motion~="stagger-rise"].is-visible > *:nth-child(2) { transition-delay: 70ms; }
+[data-motion~="stagger-rise"].is-visible > *:nth-child(3) { transition-delay: 140ms; }
+[data-motion~="stagger-rise"].is-visible > *:nth-child(4) { transition-delay: 210ms; }
+[data-motion~="stagger-rise"].is-visible > *:nth-child(5) { transition-delay: 280ms; }
+[data-motion~="stagger-rise"].is-visible > *:nth-child(n+6) { transition-delay: 350ms; }
+
+/* motion: reveal-up */
+[data-motion~="reveal-up"] { opacity: 0; transform: translateY(var(--gap-sm)); transition: opacity 700ms ease, transform 700ms ease; }
+[data-motion~="reveal-up"].is-visible { opacity: 1; transform: translateY(0); }
+
+/* motion: hover-lift */
+[data-motion~="hover-lift"] { transition: transform 240ms ease, box-shadow 240ms ease; }
+[data-motion~="hover-lift"]:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+/* motion: image-zoom-soft */
+[data-motion~="image-zoom-soft"] { overflow: hidden; }
+[data-motion~="image-zoom-soft"] img,
+[data-motion~="image-zoom-soft"] picture > img {
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+[data-motion~="image-zoom-soft"]:hover img,
+[data-motion~="image-zoom-soft"]:focus-within img,
+[data-motion~="image-zoom-soft"]:hover picture > img,
+[data-motion~="image-zoom-soft"]:focus-within picture > img {
+  transform: scale(1.06);
+}
+
+/* motion: button-circle-arrow */
+[data-motion~="button-circle-arrow"] {
+  --bca-duration: 0.5s;
+  --bca-easing: cubic-bezier(0.65, 0, 0.35, 1);
+  --bca-pad-y: var(--btn-pad-y, 1.1rem);
+  --bca-pad-x: var(--btn-pad-x, 1.8rem);
+  --bca-badge: 2.2em;
+  --bca-cx: calc(100% - 1.5em);
+  --bca-hover-bg: #e7e7e1;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8em;
+  padding: var(--bca-pad-y) var(--bca-pad-x);
+  border-radius: var(--btn-radius, 999px);
+  font-weight: var(--btn-weight, 600);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  contain: paint;
+  backface-visibility: hidden;
+}
+:where([data-motion~="button-circle-arrow"]) {
+  background: var(--color-surface);
+  color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  letter-spacing: -0.01em;
+}
+[data-motion~="button-circle-arrow"] .bca__label {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+  transition: color var(--bca-duration) var(--bca-easing);
+}
+[data-motion~="button-circle-arrow"]:hover .bca__label,
+[data-motion~="button-circle-arrow"]:focus-visible .bca__label {
+  color: var(--color-btn-text);
+}
+[data-motion~="button-circle-arrow"] .bca__badge {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--bca-badge);
+  height: var(--bca-badge);
+  margin: calc(var(--bca-pad-y) * -0.45) calc(var(--bca-pad-x) * -0.4) calc(var(--bca-pad-y) * -0.45) 0;
+  border-radius: 50%;
+  background: var(--bca-hover-bg);
+  color: var(--color-btn-text);
+}
+[data-motion~="button-circle-arrow"] .bca__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bca-hover-bg);
+  border-radius: inherit;
+  backface-visibility: hidden;
+  clip-path: circle(0% at var(--bca-cx) 50%);
+  transition: clip-path var(--bca-duration) var(--bca-easing);
+  will-change: clip-path;
+}
+[data-motion~="button-circle-arrow"]:hover .bca__fill,
+[data-motion~="button-circle-arrow"]:focus-visible .bca__fill {
+  clip-path: circle(140% at var(--bca-cx) 50%);
+}
+[data-motion~="button-circle-arrow"]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+[data-motion~="button-circle-arrow"] .bca__arrows {
+  position: relative;
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  overflow: hidden;
+  flex: none;
+}
+[data-motion~="button-circle-arrow"] .bca__arrow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  transition: transform var(--bca-duration) var(--bca-easing),
+              opacity var(--bca-duration) var(--bca-easing);
+}
+[data-motion~="button-circle-arrow"] .bca__arrow--dup {
+  transform: translate(-120%, 120%);
+  opacity: 0;
+}
+[data-motion~="button-circle-arrow"]:hover .bca__arrow,
+[data-motion~="button-circle-arrow"]:focus-visible .bca__arrow {
+  transform: translate(120%, -120%);
+  opacity: 0;
+}
+[data-motion~="button-circle-arrow"]:hover .bca__arrow--dup,
+[data-motion~="button-circle-arrow"]:focus-visible .bca__arrow--dup {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/* motion: link-underline-slide */
+[data-motion~="link-underline-slide"] { background-image: linear-gradient(currentColor, currentColor); background-position: 0 100%; background-repeat: no-repeat; background-size: 0 1px; text-decoration: none; border-bottom: 0; padding-bottom: 0; transition: background-size 220ms ease; }
+[data-motion~="link-underline-slide"]:hover, [data-motion~="link-underline-slide"]:focus-visible { background-size: 100% 1px; }
+
+
+/* section: quiz rounds */
+.quiz-rounds{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);}
+.quiz-round{display:flex;flex-direction:column;gap:var(--gap-sm);padding:var(--gap);border:1px solid var(--color-border);border-radius:var(--radius);background:rgba(240,240,240,0.04);transition:border-color .3s ease,transform .3s ease;}
+.quiz-round:hover{border-color:#727267;transform:translateY(-4px);}
+.quiz-round__level{font-family:var(--font-display);font-size:var(--text-display);letter-spacing:-0.02em;}
+.quiz-round--easy .quiz-round__level{color:#bebeb0;}
+.quiz-round--medium .quiz-round__level{color:var(--color-accent);}
+.quiz-round--hard .quiz-round__level{color:var(--color-text);text-shadow:0 0 18px rgba(168,168,148,0.60);}
+.quiz-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--gap-sm);}
+.quiz-list li{font-size:var(--text-small);letter-spacing:0.04em;color:var(--color-muted);padding-left:1.1rem;position:relative;}
+.quiz-list li::before{content:"\2192";position:absolute;left:0;color:var(--color-accent);}
+.quiz-final{margin-top:auto;padding-top:var(--gap-sm);border-top:1px solid var(--color-border);font-size:var(--text-small);letter-spacing:0.08em;text-transform:uppercase;color:var(--color-accent);}
+@media (max-width:1024px){.quiz-rounds{grid-template-columns:1fr;}}
+@media (prefers-reduced-motion:reduce){.quiz-round{transition:none;}.quiz-round:hover{transform:none;}}
+
+@media (max-width: 1024px){
+.section{padding:calc(var(--section-padding) * 0.72) var(--container-padding);}
+.split{grid-template-columns:1fr;gap:var(--gap);}
+.grid-4{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width: 768px){
+.section{padding:calc(var(--section-padding) * 0.55) var(--container-padding);}
+.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;gap:var(--gap-sm);}
+.stack,.stack-sm{gap:var(--gap-sm);}
+.m-nav .nav-cta{display:none;}
+.nav-toggle{display:inline-flex;position:relative;z-index:120;}
+.m-nav .nav-toggle{display:inline-flex;}
+.m-nav .nav-links{position:fixed;inset:0;width:100vw;height:100vh;height: 100vh; height: 100dvh;background:var(--color-bg);color:var(--color-text);flex-direction:column;justify-content:center;align-items:center;gap:1.5rem;transform:translateY(-100%);transition:transform .35s ease;z-index:110;padding:5rem 1.5rem;}
+.m-nav .nav-links.open{transform:translateY(0);}
+.m-nav .nav-links a{font-size:var(--text-body);color:var(--color-text);}
+.nav-toggle[aria-expanded="true"]{position:fixed;top:1rem;right:var(--container-padding);z-index:120;}
+}
+
+.m-nav {
+  z-index: 1000 !important;
+}
+[data-page-overlay] {
+  z-index: 2000 !important;
+}
+
+@media (min-width: 769px) {
+  .m-nav .nav-toggle {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .m-nav {
+    z-index: 1000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    transform: none !important;
+    perspective: none !important;
+  }
+  .m-nav .nav-links {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100vh; height: 100dvh !important;
+    overflow-y: auto;
+    z-index: 110 !important;
+  }
+  .nav-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1001 !important;
+  }
+  /* When the menu is open we lock body scroll, which breaks the sticky
+     anchor on .m-nav if the user had scrolled before tapping the hamburger.
+     Pin the toggle to the viewport via aria-expanded (universally set by
+     the AI-generated nav script per the prompt rules). */
+  .nav-toggle[aria-expanded="true"],
+  body.nav-open .nav-toggle,
+  body.nav-locked .nav-toggle {
+    position: fixed !important;
+    top: 1rem !important;
+    right: var(--container-padding, 1rem) !important;
+    z-index: 1001 !important;
+  }
+}
+
+.m-footer {
+  overflow: hidden !important;
+  overflow: clip !important;
+}
+  
+/* ===== CyberQ quiz engine ===== */
+.cq{padding:var(--section-padding) 0;background:var(--color-bg);color:var(--color-text);scroll-margin-top:5rem}
+.cq__inner{width:min(var(--container-width),100%);margin-inline:auto;padding-inline:var(--container-padding)}
+.cq__card{max-width:52rem;margin-inline:auto;border:1px solid var(--color-border);border-radius:var(--radius);padding:clamp(1.5rem,4vw,3rem);background:#0c0c0c;box-shadow:var(--shadow-md)}
+.cq__screen{display:none}.cq__screen.is-active{display:block}
+.cq__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:var(--gap-sm);margin-bottom:var(--gap)}
+.cq__meta{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:var(--text-small);text-transform:uppercase;letter-spacing:.08em;color:var(--color-muted)}
+.cq__meta b{color:var(--color-text);font-weight:600}
+.cq__timer{position:relative;width:4.25rem;height:4.25rem;flex:none}
+.cq__timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.cq__timer circle{fill:none;stroke-width:4}
+.cq__timer .track{stroke:var(--color-border)}
+.cq__timer .bar{stroke:var(--color-accent);stroke-linecap:round;stroke-dasharray:163.36;transition:stroke-dashoffset 1s linear,stroke .3s}
+.cq__timer.is-low .bar{stroke:#ff5f56}
+.cq__timer span{position:absolute;inset:0;display:grid;place-items:center;font-weight:600;font-size:1.1rem}
+.cq__progress{height:3px;background:var(--color-border);border-radius:2px;overflow:hidden;margin-bottom:var(--gap)}
+.cq__progress i{display:block;height:100%;background:var(--color-accent);width:0;transition:width .4s ease}
+.cq__topic{display:inline-block;font-size:var(--text-small);letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:.75rem}
+.cq__bonus{display:inline-block;margin-left:.75rem;padding:.15rem .6rem;border:1px solid var(--color-accent);border-radius:999px;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)}
+.cq__q{font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:600;line-height:1.3;letter-spacing:-.01em;margin-bottom:var(--gap)}
+.cq__opts{display:grid;gap:.75rem}
+@media(min-width:640px){.cq__opts{grid-template-columns:1fr 1fr}}
+.cq__opt{display:flex;align-items:center;gap:.9rem;text-align:left;width:100%;padding:1rem 1.1rem;border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-bg);color:var(--color-text);font-size:.95rem;line-height:1.4;transition:border-color .2s,background .2s,transform .2s}
+.cq__opt:hover:not(:disabled){border-color:var(--color-accent);transform:translateY(-2px)}
+.cq__opt:disabled{cursor:default}
+.cq__opt small{flex:none;width:1.75rem;height:1.75rem;display:grid;place-items:center;border:1px solid var(--color-border);border-radius:6px;font-size:.7rem;color:var(--color-muted)}
+.cq__opt.is-correct{border-color:#3ddc84;background:#0b2115}
+.cq__opt.is-wrong{border-color:#ff5f56;background:#26100f}
+.cq__feedback{min-height:1.6rem;margin-top:var(--gap);font-size:var(--text-small);letter-spacing:.06em;text-transform:uppercase;color:var(--color-muted)}
+.cq__feedback.ok{color:#3ddc84}.cq__feedback.bad{color:#ff5f56}
+.cq__actions{display:flex;justify-content:flex-end;gap:.75rem;margin-top:var(--gap-sm)}
+.cq__btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-size:var(--text-small);letter-spacing:.06em;font-weight:var(--btn-weight);border-radius:var(--btn-radius);padding:var(--btn-pad-y) var(--btn-pad-x);background:var(--color-btn-bg);color:var(--color-btn-text);border:1px solid var(--color-btn-bg);transition:opacity .25s}
+.cq__btn:hover{opacity:.8}.cq__btn:disabled{opacity:.35;cursor:not-allowed}
+.cq__btn--ghost{background:transparent;color:var(--color-text);border-color:var(--color-border)}
+.cq__center{text-align:center}
+.cq__center h2{margin:.5rem 0 1rem}
+.cq__center p{color:var(--color-muted);max-width:40ch;margin-inline:auto}
+.cq__score{font-size:clamp(2.5rem,7vw,4.5rem);font-weight:600;letter-spacing:-.04em;line-height:1;margin:1.5rem 0}
+.cq__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.75rem;margin:var(--gap) 0}
+.cq__stat{border:1px solid var(--color-border);border-radius:var(--radius);padding:1rem}
+.cq__stat b{display:block;font-size:1.4rem;font-weight:600}
+.cq__stat span{font-size:var(--text-small);text-transform:uppercase;letter-spacing:.08em;color:var(--color-muted)}
+.cq__input{max-width:22rem;margin:1.5rem auto}
+.cq__rank{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--color-border);font-size:.9rem}
+.cq__rank:last-child{border-bottom:0}
+.cq__rank.is-you{color:var(--color-accent)}
+.cq__list{max-width:26rem;margin:var(--gap) auto 0;text-align:left}
+
+/* ===== iOS / older-Safari fallbacks (plain colours for browsers without color-mix) ===== */
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .cq__card{background:#0c0c0c}
+  .cq__opt.is-correct{background:#0f2a1c}
+  .cq__opt.is-wrong{background:#2f1210}
+  .tmo__stage{background:#111}
+  .tmo__tab[aria-selected="true"]{background:#0a0a0a}
+  .csrv__media::after{background:radial-gradient(ellipse at center, rgba(3,3,3,.22), rgba(3,3,3,.72))}
+}
+.cq__card{-webkit-tap-highlight-color:transparent}
+.cq__opt{-webkit-appearance:none;appearance:none;touch-action:manipulation}
+#cq-name{font-size:16px}
+
+</style>
+  
+  </head>
+<body>
+<nav data-section="navigation" class="m-nav"><div class="nav-inner"><a href="/" class="logo">CyberQ</a><ul id="nav-links" class="nav-links"><li><a href="#section03">Platform</a></li><li><a href="#quiz">Play</a></li><li><a href="#section05">Challenges</a></li><li><a href="#section06">Leader</a></li><li><a href="#section08">Support</a></li></ul><a href="#quiz" class="m-btn nav-cta" data-motion="button-circle-arrow">Start Quiz</a><button type="button" class="nav-toggle" aria-label="Navigation" aria-controls="nav-links" aria-expanded="false">☰</button></div></nav>
+
+<section data-section="header" data-snippet="header.center-stack-reveal" data-owned-motion="interaction" class="csrv" id="section02" data-generated-section="section02">
+  <div class="csrv__media">
+    <div class="csrv__image" data-slot="media"><img src="https://images.unsplash.com/photo-1548317202-26d94742e8d8?w=2400&h=1500&fit=crop&q=80" alt="Futuristic mobile dashboard showing quiz interface with glowing neon UI."></div>
+  </div>
+  <div class="csrv__content" data-slot="">
+    <div class="hero-copy">
+      <span class="m-label">New AI Rounds Now Live!</span>
+      <h1 class="m-hero hero-copy__title"><span>Level Up Your Skills</span><br><span class="hero-copy__title-soft">Future of Tech</span></h1>
+      <p class="hero-copy__lede">Master AI, Cyber, and Logic in our futuristic mobile arena.</p>
+      <div class="hero-copy__actions">
+        <a class="m-btn" href="#quiz" data-motion="button-circle-arrow">Start Now</a>
+      </div>
+    </div>
+    <div class="hero-logos">
+      <span><svg class="brand-logo" role="img" aria-label="RustFS" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M0 9.997v4.006h1.086v-1.495h.773c.142.013.268.05.364.209l.621 1.286h1.238l-.611-1.225c-.187-.392-.369-.478-.718-.57.516-.08.965-.386.965-1.084 0-.306-.116-.661-.348-.851-.228-.19-.536-.276-.915-.276H1.86zm5.335 0-1.022.231v2.473c0 .502.158.83.458 1.016s.758.286 1.398.286c.616 0 1.073-.1 1.384-.286q.473-.28.473-.96v-2.76l-1.017.231v2.25c0 .31-.045.495-.177.631-.132.143-.373.193-.663.193-.3 0-.52-.056-.662-.193-.132-.13-.172-.405-.172-.708Zm4.74 0q-.864.002-1.337.297c-.315.195-.481.592-.481.972 0 .326.119.575.368.764q.365.265 1.32.433c.195.036.356.06.48.095q.19.053.28.1c.113.06.172.149.172.244q0 .186-.214.284c-.422.202-1.61.077-2.085-.136l-.202.764c.053.006.142.024.25.042.873.136 2.014.314 2.792-.178.333-.207.505-.504.505-.919a.93.93 0 0 0-.339-.729q-.321-.284-1.206-.438c-.178-.036-.339-.06-.47-.095-.873-.196-.748-.688.114-.688.463 0 .909.143 1.348.22l.095.017.096-.853c-.464-.142-1.01-.196-1.486-.196m2.079 0v.9h1.42v3.106h1.32v-3.105h1.413v-.9Zm4.39 0v4.006h1.321v-1.495h2.114l-.13-.771h-1.984v-.84h1.575l.124-.9zm5.546 0c-.596 0-1.056.1-1.37.302-.338.2-.51.59-.51.975 0 .325.13.573.381.75.258.19.713.332 1.364.444.135.018.245.036.344.06l.012-.208.909.61-.952.531.006-.183c-.559.041-1.363-.06-1.732-.23l-.203.762c.05.012.142.017.252.047.903.136 2.082.313 2.887-.183.35-.201.522-.509.522-.91a.92.92 0 0 0-.344-.733q-.332-.279-1.247-.432c-.19-.035-.35-.07-.491-.094q-.01.002-.012-.006v.23l-.94-.573.94-.567v.224h.129c.479 0 .94.148 1.4.225.061.006.086.006.092.006l.098-.852a6 6 0 0 0-1.535-.195m-21.034.748h.909q.339 0 .526.134c.116.086.171.22.171.417 0 .208-.07.361-.222.447-.131.08-.328.122-.58.135h-.804Z"></path></svg></span>
+      <span><svg class="brand-logo" role="img" aria-label="Gusto" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M21.311 8.768c-1.482 0-2.69 1.212-2.69 2.702s1.208 2.701 2.69 2.701c1.483 0 2.689-1.212 2.689-2.701s-1.206-2.702-2.689-2.702Zm0 4.123a1.42 1.42 0 0 1-1.415-1.421 1.42 1.42 0 0 1 1.415-1.422c.78 0 1.415.638 1.415 1.422s-.635 1.42-1.415 1.42Zm-7.919-1.969-.47-.235c-.204-.102-.332-.18-.384-.239a.283.283 0 0 1-.078-.19c0-.091.04-.168.122-.228.08-.063.193-.091.338-.091.264 0 .556.16.878.48l.794-.797a2.09 2.09 0 0 0-.744-.63 2.06 2.06 0 0 0-.937-.22c-.484 0-.884.143-1.196.431a1.367 1.367 0 0 0-.468 1.04c0 .63.412 1.154 1.24 1.57l.433.218c.373.189.559.381.559.58 0 .108-.052.201-.155.284a.63.63 0 0 1-.409.122c-.156 0-.336-.054-.538-.163a1.81 1.81 0 0 1-.528-.427l-.79.864c.446.584 1.04.878 1.786.878.561 0 1.009-.153 1.34-.458.335-.304.502-.685.502-1.141 0-.342-.093-.642-.277-.897-.185-.255-.525-.504-1.018-.75Zm-7.985 2.66V8.876H4.131v.316a2.662 2.662 0 0 0-1.442-.423C1.206 8.768 0 9.98 0 11.47s1.206 2.701 2.689 2.701c.505 0 1-.142 1.427-.412l-.002.104a1.42 1.42 0 0 1-1.415 1.42c-.265 0-.524-.075-.748-.217l-.631 1.11c.416.255.894.39 1.382.39a2.713 2.713 0 0 0 2.705-2.702c0-.057.004-.227 0-.281ZM2.69 12.89a1.42 1.42 0 0 1-1.415-1.42c0-.784.636-1.422 1.415-1.422s1.415.638 1.415 1.422a1.42 1.42 0 0 1-1.415 1.42Zm7.803-4.016H9.21v2.568c.002.365.002.995-.265 1.264-.128.128-.269.245-.563.245a.707.707 0 0 1-.565-.245c-.269-.27-.266-.901-.265-1.264V8.874H6.27v2.56c-.004.528-.01 1.509.633 2.16.377.38.827.575 1.476.575.65 0 1.1-.193 1.477-.576.643-.65.637-1.633.633-2.159l.004-2.56Zm7.27 3.787c-.104.078-.353.253-.636.213-.23-.03-.418-.2-.447-.768v-2.13h1.507V8.87H16.68V7.434H15.4v.281h-.002v4.223c0 .671.17 2.231 1.726 2.231.788-.012 1.266-.441 1.467-.609l.026-.02-.767-.95a4.174 4.174 0 0 1-.089.07Z"></path></svg></span>
+      <span><svg class="brand-logo" role="img" aria-label="JOUAV" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="m4.8218 13.1065.112-.069a1.35694 1.357 0 0 1-.48099-1.037 1.36994 1.37 0 0 1 1.37395-1.365c.40998 0 .77596.18 1.02995.462l.016-.027c.115-.203.226-.402.30999-.6.038-.078.066-.157.097-.233a2.2839 2.284 0 0 0-1.45194-.517 2.2869 2.287 0 0 0-2.2949 2.28c0 .562.20498 1.076.54397 1.473a2.4939 2.494 0 0 0 .141-.058c.19999-.086.39998-.195.60397-.309zm2.70189-2.642a4.8278 4.828 0 0 1-.312.787 6.70872 6.709 0 0 1-.11799.216 1.35994 1.36 0 0 1 .108.532 1.36994 1.37 0 0 1-1.87992 1.269 5.83176 5.832 0 0 1-.31599.175 4.8598 4.86 0 0 1-.67297.272l-.012.004a2.2929 2.293 0 0 0 1.50594.56 2.2869 2.287 0 0 0 2.2949-2.28 2.2569 2.257 0 0 0-.59797-1.535zm-6.20175-.673H2.7209v2.754c0 .592-.146 1.028-.43699 1.31-.29198.28-.74496.42-1.35994.42A3.70985 3.71 0 0 1 0 14.1605v-.959a1.41794 1.418 0 0 0 .44598.075c.31599 0 .53998-.077.67397-.23.135-.153.202-.418.202-.794v-2.46zm7.55469 0h1.39994v2.55c0 .374.065.644.199.812.13299.166.34598.25.63797.25.29998 0 .52698-.09.67997-.27.153-.178.22899-.443.22899-.792v-2.55h1.33194v2.55c0 .646-.18699 1.13-.55997 1.451-.37299.322-.93296.483-1.67993.483-.73997 0-1.29895-.162-1.67393-.486-.37599-.325-.56298-.807-.56298-1.448v-2.55zm6.91471 0h1.68693l1.98492 4.383h-1.49494l-.37198-.928h-2.01992l-.38998.928h-1.38495zm.81497.978-.67997 1.644h1.33694zm2.1739-.978h1.46195l1.16995 3.411 1.15595-3.41H24l-1.77793 4.382h-1.75392z"></path></svg></span>
+      <span><svg class="brand-logo" role="img" aria-label="Fubo" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M10.898 16.705H9.114v-.29c-.265.196-.656.416-1.32.416-2.158 0-2.996-1.167-2.996-3.43V9.809h1.783v3.592c-.006.616 0 1.778 1.284 1.778 1.241 0 1.248-1.1 1.248-1.765V9.809h1.783v6.896zM4.101 7.207c-1.961-.216-2.407.233-2.763.7-.316.413-.357.988-.357 1.401v.501H0v1.652h.999v5.244h1.783v-5.244h1.346V9.809h-1.31v-.465c0-.474.38-.533.571-.521l.392.018.32-1.634zM24 13.257c0-1.984-1.594-3.592-3.561-3.592-.835 0-1.603.29-2.21.775.384.44.677.965.85 1.543a1.707 1.707 0 0 1 1.337-.666c.975 0 1.765.86 1.765 1.922 0 1.061-.79 1.922-1.765 1.922-.969 0-1.757-.851-1.765-1.904 0-.913-.332-1.747-.878-2.381a3.447 3.447 0 0 0-2.617-1.211c-.651 0-1.261.183-1.783.502V7.259l-1.783.35v9.097h1.783v-.288c.522.319 1.132.432 1.783.432a3.42 3.42 0 0 0 2.176-.781 4.215 4.215 0 0 1-.876-1.537c-.321.429-.8.702-1.336.702-.965 0-1.747-.884-1.747-1.975s.782-1.975 1.747-1.975c.965 0 1.748.885 1.748 1.976 0 1.984 1.6 3.591 3.566 3.591C22.4 16.849 24 15.241 24 13.257"></path></svg></span>
+      <span><svg class="brand-logo" role="img" aria-label="Malt" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M20.195 8.581c-.069 0-.285.026-.484.113-.432.181-.597.311-.597.58v5.023c0 .277.26.355.735.355.467 0 .649-.087.649-.355V8.858c0-.173-.113-.277-.303-.277zm3.502 4.903c-.345.087-.45.113-.57.113-.147 0-.2-.044-.2-.2v-2.161h.788c.207 0 .285-.078.285-.285 0-.173-.078-.26-.285-.26h-.787v-.839c0-.259-.087-.363-.268-.363-.173 0-.415.156-.934.597-.528.45-.83.744-.83.951 0 .121.086.199.224.199h.424v2.335c0 .683.337 1.08.925 1.08.39 0 .675-.146 1.012-.406.311-.242.51-.432.51-.596 0-.139-.103-.217-.294-.165zm-15.21-3.078c-.13 0-.285.026-.484.112-.433.19-.597.312-.597.58v3.2c0 .276.26.354.735.354.467 0 .649-.087.649-.355v-3.614c0-.173-.113-.277-.303-.277Zm1.816 0c-.355 0-.675.121-.986.363-.173.138-.32.294-.32.424 0 .112.078.173.19.173.19 0 .251-.078.416-.078.164 0 .25.173.25.476v2.533c0 .277.26.355.735.355.467 0 .649-.087.649-.355v-2.776c0-.657-.39-1.115-.934-1.115zm2.43 0c-.337 0-.692.121-1.003.363-.173.138-.32.294-.32.424 0 .112.078.173.19.173.19 0 .25-.078.432-.078s.268.173.268.476v2.533c0 .277.26.355.735.355.467 0 .649-.087.649-.355v-2.776c0-.657-.39-1.115-.951-1.115zm5.335 0a1.29 1.29 0 0 0-.484.112c-.26.113-.398.2-.467.312-.26-.303-.597-.398-.977-.398-1.116 0-1.911.942-1.911 2.283 0 1.124.605 1.954 1.461 1.954.26 0 .493-.104.77-.363.216-.2.32-.329.32-.45a.14.14 0 0 0-.147-.147c-.121 0-.251.104-.416.104-.354 0-.596-.545-.596-1.35 0-.803.32-1.348.804-1.348.32 0 .562.242.562.657v2.525c0 .277.26.355.735.355.467 0 .649-.087.649-.355v-3.614c0-.173-.113-.277-.303-.277ZM3.499 13.563l-.21.21.619.618c.304.304.79.598 1.244.144.339-.34.26-.695.073-.98-.06.004-1.726.008-1.726.008zm-.963-2.325.21-.21-.608-.607c-.304-.303-.765-.621-1.243-.143-.351.35-.273.692-.087.97Zm2.86.416c-.037.043-1.511 1.524-1.511 1.524h1.154c.43 0 .981-.101.981-.777 0-.496-.296-.683-.624-.747zm-3.244-.031H.981c-.43 0-.981.135-.981.778 0 .479.307.676.641.745.04-.046 1.511-1.523 1.511-1.523zm1.484 3.04-.618-.618-.608.607a2.613 2.613 0 0 1-.137.128c.07.333.266.639.745.639s.676-.307.745-.641c-.043-.037-.085-.073-.127-.115zM2.41 10.15l.608.607.618-.618a2.25 2.25 0 0 1 .128-.118c-.065-.327-.251-.623-.747-.623s-.682.297-.746.625c.046.04.092.08.14.127zm2.742.117c-.455-.454-.94-.16-1.244.144l-2.87 2.87c-.303.303-.621.765-.143 1.243.478.478.94.16 1.243-.143l2.87-2.87c.304-.304.598-.79.144-1.244Z"></path></svg></span>
+      <span><svg class="brand-logo" role="img" aria-label="Carto" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M19.138 7.138C21.823 7.138 24 9.3147 24 12s-2.1769 4.862-4.862 4.862c-1.9046 0-3.5532-1.0949-4.351-2.6896h.4683c.7615 1.358 2.215 2.2759 3.8826 2.2759 2.4567 0 4.4483-1.9916 4.4483-4.4483 0-2.4567-1.9916-4.4483-4.4483-4.4483-1.6677 0-3.1211.9178-3.8826 2.2759h-.4683c.7978-1.5947 2.4464-2.6897 4.351-2.6897zm0 3.3103c.8569 0 1.5517.6947 1.5517 1.5517 0 .857-.6948 1.5517-1.5518 1.5517-.857 0-1.5517-.6947-1.5517-1.5517 0-.857.6948-1.5517 1.5517-1.5517zm-17.5772.0109c.6066 0 .9968.2545 1.2597.615l-.6192.4793c-.1697-.2079-.3648-.3478-.649-.3478-.4156 0-.7083.3562-.7083.7889v.008c0 .4453.2927.793.7083.793.3096 0 .492-.144.6702-.3604l.6192.4411c-.2799.386-.6574.6701-1.3105.6701C.6829 13.547 0 12.898 0 12.0116v-.008c0-.8652.6617-1.5439 1.5608-1.5439zm4.7346.0382l1.264 2.9902h-.8822l-.212-.5344H5.3156l-.212.5344h-.861l1.2596-2.9902zm4.27.0212c.454 0 .7678.1187.9671.318.174.174.263.3988.263.6914v.008c0 .458-.2418.7592-.6108.9162l.7083 1.0349h-.9458l-.598-.8992h-.3648v.8992h-.8228v-2.969zm5.3983 0v.721h-.8907v2.248h-.8228v-2.248h-.8864v-.721zm-10.0712.9543l-.335.8398h.6658zm4.6348-.246h-.5429v.7168h.5472c.2756 0 .441-.1357.441-.352v-.008c0-.2375-.1738-.3563-.4453-.3563z"></path></svg></span>
+    </div>
+  </div>
+</section>
+
+<section data-section="stats" class="section m-section-alt" id="section03" data-generated-section="section03"><div class="container"><div class="section03-intro"><span class="m-label">Round Challenges</span><h2 class="m-heading section03-title" data-motion="word-reveal">Test Your Limits with Futuristic Difficulty</h2><p class="text-muted section03-lede">Three stages of intensity. Earn 1000 points per correct answer, lose 500 on wrong. Double up!</p><div class="section03-cta"><a class="m-btn" href="#" data-motion="button-circle-arrow">Join Match</a></div></div><dl class="section03-stats" data-motion="stagger-rise"><div class="section03-stat"><dt class="m-caption">Total Questions Per Round</dt><dd class="section03-value"><span class="m-display">15</span></dd></div><div class="section03-stat"><dt class="m-caption">Points Per Correct</dt><dd class="section03-value"><span class="m-display">1000</span></dd></div><div class="section03-stat"><dt class="m-caption">Penalty Per Wrong Answer</dt><dd class="section03-value"><span class="m-display">500</span></dd></div></dl></div></section>
+
+<section data-section="features" data-snippet="features.tabs-media-overlay" data-owned-motion="entrance interaction" class="tmo" id="section05" data-generated-section="section05">
+  <div class="tmo__inner">
+    <div class="tmo__head">
+      <div class="tmo__head-start">
+        <p class="tmo__eyebrow" data-slot="text"><span class="m-label">Difficulty</span></p>
+        <h2 class="tmo__title" data-slot="text" data-motion="word-reveal">Choose Your Challenge</h2>
+      </div>
+      <div class="tmo__head-end" data-slot="">
+        <p class="ind-intro__copy">From Easy onboarding to Hardcore masterclass. Every round ends with a high-stakes double point question.</p>
+        <div class="ind-intro__actions"><a class="m-btn" href="#section05" data-motion="button-circle-arrow">Begin Quiz</a></div>
+      </div>
+    </div>
+
+    <div class="tmo__tabs" role="tablist">
+      <button class="tmo__tab" type="button" role="tab" id="tmo-tab-1" aria-controls="tmo-panel-1" aria-selected="true" data-tmo-tab="" data-slot="text">Beginner</button>
+      <button class="tmo__tab" type="button" role="tab" id="tmo-tab-2" aria-controls="tmo-panel-2" data-tmo-tab="" data-slot="text">Medium</button>
+      <button class="tmo__tab" type="button" role="tab" id="tmo-tab-3" aria-controls="tmo-panel-3" data-tmo-tab="" data-slot="text">Advanced</button>
+      <button class="tmo__tab" type="button" role="tab" id="tmo-tab-4" aria-controls="tmo-panel-4" data-tmo-tab="" data-slot="text">Expert</button>
+      <button class="tmo__tab" type="button" role="tab" id="tmo-tab-5" aria-controls="tmo-panel-5" data-tmo-tab="" data-slot="text">Master</button>
+    </div>
+
+    <div class="tmo__stage">
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-1" aria-labelledby="tmo-tab-1" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1672872476232-da16b45c9001?w=1600&h=900&fit=crop&q=80" alt="Abstract digital network node."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Foundation</span>
+          <h3 class="m-display">Cybersecurity Basics</h3>
+          <p>Understand the core concepts of network defense, encryption, and threat identification in a secure, digital environment.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round One</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-2" aria-labelledby="tmo-tab-2" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1712961751512-412da27901e4?w=1600&h=900&fit=crop&q=80" alt="Glowing artificial brain icon."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Artificial</span>
+          <h3 class="m-display">AI Core</h3>
+          <p>Dive into machine learning, neural networks, and the future of automated intelligence with our advanced modules.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round Two</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-3" aria-labelledby="tmo-tab-3" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1530919424169-4b95f917e937?w=1600&h=900&fit=crop&q=80" alt="Cybersecurity shield graphic."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Knowledge</span>
+          <h3 class="m-display">General IQ</h3>
+          <p>Broaden your horizons with tech history, innovation trends, and logic puzzles designed for the modern mind.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round Three</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-4" aria-labelledby="tmo-tab-4" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1556856425-366d6618905d?w=1600&h=900&fit=crop&q=80" alt="Advanced data analytics chart display."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">High Risk</span>
+          <h3 class="m-display">Final</h3>
+          <p>The ultimate challenge awaits. 15 questions of extreme difficulty. Correct answers reward double points, failures cost big.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Enter Finals Now</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-5" aria-labelledby="tmo-tab-5" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1542416409-400da26855b5?w=1600&h=900&fit=crop&q=80" alt="High-tech mobile game screen view."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Analytics</span>
+          <h3 class="m-display">Results</h3>
+          <p>Track your performance, analyze your wrong turns, and climb the global leaderboard to show your technical prowess.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">View Leaderboard</a>
+        </div>
+      </div>
+    </div>
+    <div class="tmo__nav" aria-hidden="true">
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-1" aria-labelledby="tmo-tab-1" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1672872476232-da16b45c9001?w=1600&h=900&fit=crop&q=80" alt="Abstract digital network node."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Foundation</span>
+          <h3 class="m-display">Cybersecurity Basics</h3>
+          <p>Understand the core concepts of network defense, encryption, and threat identification in a secure, digital environment.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round One</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-2" aria-labelledby="tmo-tab-2" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1712961751512-412da27901e4?w=1600&h=900&fit=crop&q=80" alt="Glowing artificial brain icon."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Artificial</span>
+          <h3 class="m-display">AI Core</h3>
+          <p>Dive into machine learning, neural networks, and the future of automated intelligence with our advanced modules.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round Two</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-3" aria-labelledby="tmo-tab-3" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1530919424169-4b95f917e937?w=1600&h=900&fit=crop&q=80" alt="Cybersecurity shield graphic."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Knowledge</span>
+          <h3 class="m-display">General IQ</h3>
+          <p>Broaden your horizons with tech history, innovation trends, and logic puzzles designed for the modern mind.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Start Round Three</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-4" aria-labelledby="tmo-tab-4" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1556856425-366d6618905d?w=1600&h=900&fit=crop&q=80" alt="Advanced data analytics chart display."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">High Risk</span>
+          <h3 class="m-display">Final</h3>
+          <p>The ultimate challenge awaits. 15 questions of extreme difficulty. Correct answers reward double points, failures cost big.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">Enter Finals Now</a>
+        </div>
+      </div>
+      <div class="tmo__panel" role="tabpanel" id="tmo-panel-5" aria-labelledby="tmo-tab-5" data-tmo-panel="">
+        <figure class="tmo__media" data-slot="media" data-motion="image-zoom-soft"><img src="https://images.unsplash.com/photo-1542416409-400da26855b5?w=1600&h=900&fit=crop&q=80" alt="High-tech mobile game screen view."></figure>
+        <div class="tmo__card" data-slot="">
+          <span class="m-label">Analytics</span>
+          <h3 class="m-display">Results</h3>
+          <p>Track your performance, analyze your wrong turns, and climb the global leaderboard to show your technical prowess.</p>
+          <a class="m-link" href="#section05" data-motion="link-underline-slide">View Leaderboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" data-section="testimonials" id="section06" data-generated-section="section06"><div class="container"><div class="section06-head"><span class="m-label">Student Success</span><h2 class="m-heading" data-motion="word-reveal">What Our Seniors Say</h2><p class="text-muted">Real feedback from top performers in the arena.</p><div class="section06-cta"><a class="m-btn" href="#section06" data-motion="button-circle-arrow">View All Testimonials</a></div></div><ul class="section06-grid" data-motion="stagger-rise"><li class="section06-panel section06-panel--open" data-motion="hover-lift"><img class="section06-img" src="https://images.unsplash.com/photo-1531931477284-7e16215c9540?w=1200&h=1000&fit=crop&q=80" alt="Student engaged with digital quiz."><div class="section06-overlay"><span class="section06-brand" style="color:var(--color-bg)"><svg class="brand-logo" role="img" aria-label="Fubo" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M10.898 16.705H9.114v-.29c-.265.196-.656.416-1.32.416-2.158 0-2.996-1.167-2.996-3.43V9.809h1.783v3.592c-.006.616 0 1.778 1.284 1.778 1.241 0 1.248-1.1 1.248-1.765V9.809h1.783v6.896zM4.101 7.207c-1.961-.216-2.407.233-2.763.7-.316.413-.357.988-.357 1.401v.501H0v1.652h.999v5.244h1.783v-5.244h1.346V9.809h-1.31v-.465c0-.474.38-.533.571-.521l.392.018.32-1.634zM24 13.257c0-1.984-1.594-3.592-3.561-3.592-.835 0-1.603.29-2.21.775.384.44.677.965.85 1.543a1.707 1.707 0 0 1 1.337-.666c.975 0 1.765.86 1.765 1.922 0 1.061-.79 1.922-1.765 1.922-.969 0-1.757-.851-1.765-1.904 0-.913-.332-1.747-.878-2.381a3.447 3.447 0 0 0-2.617-1.211c-.651 0-1.261.183-1.783.502V7.259l-1.783.35v9.097h1.783v-.288c.522.319 1.132.432 1.783.432a3.42 3.42 0 0 0 2.176-.781 4.215 4.215 0 0 1-.876-1.537c-.321.429-.8.702-1.336.702-.965 0-1.747-.884-1.747-1.975s.782-1.975 1.747-1.975c.965 0 1.748.885 1.748 1.976 0 1.984 1.6 3.591 3.566 3.591C22.4 16.849 24 15.241 24 13.257"></path></svg></span><blockquote class="section06-quote"><p>The CyberQ interface is incredibly sleek and mobile-friendly. It turned my study sessions into an intense, rewarding game of strategy and speed.</p></blockquote><div class="section06-author"><cite>Alex Rivera</cite><span class="m-caption">Senior Developer</span></div></div></li><li class="section06-panel" data-motion="hover-lift"><img class="section06-img" src="https://images.unsplash.com/photo-1557684387-08927d28c72a?w=600&h=1000&fit=crop&q=80" alt="Futuristic server room with neon lighting." data-people=""><div class="section06-overlay"><span class="section06-brand" style="color:var(--color-bg)"><svg class="brand-logo" role="img" aria-label="Hepsiemlak" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M9.7214 14.9904c0 .4768-.3982.7843-1.0803.7843-.3203 0-.74-.06-1.0463-.272l.2502-.4716c.2016.1308.4467.2262.8009.2262.2943 0 .4348-.081.4348-.217 0-.1109-.1188-.1736-.3911-.2122l-.1916-.0257c-.5435-.074-.8131-.3076-.8131-.7024 0-.4745.3739-.7553.9927-.7553.341-.0064.6784.0689.9832.2191l-.2137.4853c-.1882-.0905-.4852-.1848-.7499-.1885-.2405 0-.3618.0835-.3618.21 0 .1334.1697.1667.3836.1977l.2087.031c.51.0761.7937.3001.7937.6911zm-2.2784-.4613c0 .6757-.4832 1.1846-1.1238 1.1846-.312 0-.5322-.1184-.6832-.2929v.9614h-.6234v-2.9774h.611v.2486c.1514-.1838.374-.3091.693-.3091.6421 0 1.1264.5087 1.1264 1.1848zm-.6423 0c0-.3436-.23-.6202-.5991-.6202-.3549 0-.597.2646-.597.6202 0 .355.2421.6203.597.6203.3691 0 .5991-.2767.5991-.6203zm-2.0919.0277a1.7387 1.7387 0 0 1-.0121.2086H3.0679c.0666.3327.299.4805.5906.4805a.9243.9243 0 0 0 .5808-.2217l.363.4005c-.2612.2406-.5928.35-.9796.35-.704 0-1.1923-.4803-1.1923-1.208 0-.7276.474-1.2224 1.1618-1.2224.6617 0 1.1138.4933 1.1166 1.2125zm-.6213-.214c-.0567-.2956-.2347-.4623-.5-.4623-.292 0-.4626.1762-.517.4623h1.017zm6.0897 1.368h.6076v-2.2784h-.6076v2.2785zM4.709 14.5572v-.0014l-.0001.001v.0004zm.6076-4.4447 2.87 2.518 1.2312-1.415-4.1012-3.5977-4.1012 3.5978 1.2311 1.4149 2.8701-2.518zm-3.976 3.2444c-.2637 0-.52.0804-.6916.3077l.0004-.9898H0v3.038h.649v-1.2574c0-.3457.2315-.5186.5099-.5186.2964 0 .4703.1836.4703.5142v1.262h.6493V14.252c0-.5328-.3905-.8953-.938-.8953zm16.5835 2.3558h.6076v-3.0379h-.6076v3.038zm5.1964-1.2163.871-1.0811-.7676.0005-.6544.818h-.221l-.0006-1.559h-.6263l.0015 3.038.6262-.0004-.0004-.929h.2113l.6697.9287.7702-.0004-.8796-1.2153zm-1.7033-1.0903.0006 2.3084h-.6114v-.255c-.1506.1849-.3758.315-.6945.3154-.6397 0-1.1243-.5215-1.1244-1.2149-.0003-.6935.483-1.2152 1.1231-1.2156.319 0 .5418.1287.6953.3166v-.2549h.6113zm-.592 1.1533c-.0005-.3645-.2424-.6363-.5993-.6361-.3665 0-.5986.2838-.5986.6364 0 .3528.2326.636.5992.6357.3572 0 .5992-.2718.5986-.636zm-4.2813-1.2502c-.308.0003-.6144.1047-.7955.4019-.1572-.249-.4365-.4012-.7741-.4012-.266 0-.5224.0885-.689.3374v-.2756h-.6144v2.3426h.6314v-1.2841c-.0006-.3528.2247-.5295.4953-.5295.288 0 .4576.1877.4576.525v1.2876h.6313V14.429c-.0004-.3527.2247-.5295.4953-.5295.2855 0 .4572.1875.4572.525v1.2887h.6291v-1.4914l.0004.001c-.0004-.544-.3732-.9137-.9246-.9137zm-3.0249 1.2472a1.838 1.838 0 0 1-.0118.2089H11.878c.067.3325.2994.4803.591.4803a.9258.9258 0 0 0 .5804-.2216l.3633.4c-.2608.241-.5928.3508-.9792.3508-.704 0-1.1927-.4803-1.1928-1.2072-.0006-.7268.4734-1.2228 1.161-1.2232.6617 0 1.114.4925 1.1172 1.212zm-.6213-.2131c-.057-.2957-.235-.462-.5003-.462-.2917 0-.4622.1764-.5168.462h1.0171zm.6214.2134zm-3.0601-2.1814a.3796.3796 0 0 0-.351.2342.3794.3794 0 0 0 .0819.4139.3794.3794 0 0 0 .414.0824.38.38 0 0 0 .1233-.6193.379.379 0 0 0-.2682-.1112z"></path></svg></span><span class="section06-plus">+</span></div></li><li class="section06-panel" data-motion="hover-lift"><img class="section06-img" src="https://images.unsplash.com/photo-1485811661309-ab85183a729c?w=600&h=1000&fit=crop&q=80" alt="Close up of digital binary code stream." data-people=""><div class="section06-overlay"><span class="section06-brand" style="color:var(--color-bg)"><svg class="brand-logo" role="img" aria-label="Kaggle" viewBox="0 0 24 24" style="width:var(--brand-logo-size,5rem);height:var(--brand-logo-size,5rem);fill:currentColor;display:inline-block;vertical-align:middle;flex:none"><path d="M.1025 7.3475c-.0681 0-.1022.0341-.1022.102v6.752c0 .0681.034.1022.1022.1022h.7049c.068 0 .1022-.034.1022-.1023v-1.481l.4187-.3985 1.5016 1.91c.041.0477.0884.0716.143.0716h.9091c.0476 0 .0748-.0135.0817-.0407.0135-.041.0066-.075-.0206-.1023l-1.9816-2.4618 1.9002-1.8384c.0204-.0205.0237-.051.01-.092-.0137-.0339-.0408-.051-.0816-.051h-.9398c-.0477 0-.0953.024-.143.0716L.9096 11.607V7.4496c0-.0679-.0342-.102-.1022-.102zm18.0417 0c-.068 0-.102.0341-.102.102v6.752c0 .0681.034.102.102.102h.705c.068 0 .102-.034.102-.102v-6.752c0-.068-.034-.102-.102-.102zM5.961 9.6254c-.5653 0-1.11.1806-1.6343.5415-.0545.0545-.0648.102-.0307.143l.3676.5208c.0272.0477.0717.0545.133.0204.3948-.2722.783-.4086 1.1644-.4086.2927 0 .5158.0886.669.2656.1532.1771.2197.3917.1992.6436-.6606.0681-1.1545.1495-1.4813.245-.8308.2383-1.2461.6913-1.2461 1.3586 0 .4222.1533.7695.4598 1.0419.3132.2654.6845.3982 1.1134.3982.4698 0 .8545-.1125 1.1542-.3372v.1432c0 .0682.0374.102.1123.102h.7048c.068 0 .102-.0338.102-.102V11.372c0-.6604-.2245-1.1406-.6739-1.4403-.3065-.2043-.6776-.3063-1.1134-.3063zm4.3225 0c-.6742 0-1.195.2622-1.5627.7865-.3133.4359-.4699.9671-.4699 1.5936 0 .6604.1634 1.2087.4903 1.6444.3744.4972.892.7455 1.5526.7455.5313 0 .9567-.1327 1.2768-.3982v.531c0 .858-.4122 1.287-1.236 1.287-.361 0-.732-.1907-1.1132-.572a.098.098 0 00-.0716-.0306c-.034 0-.0613.0102-.0817.0307l-.4802.48c-.0408.0613-.0375.1124.0103.1532.1361.1157.2554.2129.3576.2911.102.0783.1905.1413.2656.189.354.1975.7284.2961 1.1235.2961.6808 0 1.207-.1925 1.5781-.577.3711-.3848.5567-.9484.5567-1.6903V9.8196c0-.068-.034-.102-.102-.102h-.705c-.0682 0-.1021.034-.1021.102v.2043c-.3471-.2657-.7763-.3985-1.287-.3985zm4.8021 0c-.6742 0-1.195.2622-1.5627.7865-.3132.4359-.4699.9671-.4699 1.5936 0 .6604.1633 1.2087.4903 1.6444.3744.4972.892.7455 1.5526.7455.5311 0 .9566-.1327 1.2768-.3982v.531c0 .858-.4122 1.287-1.236 1.287-.361 0-.732-.1907-1.1133-.572a.098.098 0 00-.0716-.0306c-.034 0-.0612.0102-.0816.0307l-.48.48c-.0409.0613-.0376.1124.01.1532.1363.1157.2555.2129.3576.2911.1021.0783.1906.1413.2657.189.354.1975.7285.2961 1.1237.2961.6808 0 1.2068-.1925 1.5781-.577.371-.3848.5565-.9484.5565-1.6903V9.8196c0-.068-.034-.102-.102-.102h-.7049c-.0682 0-.1022.034-.1022.102v.2043c-.3474-.2657-.7763-.3985-1.287-.3985zm6.7457 0c-.6537 0-1.185.211-1.5936.6332-.4427.4632-.664 1.0283-.664 1.6956 0 .7083.225 1.2905.6743 1.7467.463.463 1.042.6945 1.7366.6945.6467 0 1.2154-.1838 1.7057-.5515.0545-.041.0545-.0884 0-.143l-.4802-.4903c-.041-.0409-.0919-.0409-.1533 0-.2998.2112-.6368.3167-1.0112.3167-.4222 0-.7729-.119-1.052-.3576-.2452-.2248-.3882-.5038-.429-.8375h3.3197c.0679 0 .1022-.0341.1022-.1023l.01-.2244c.0341-.6878-.1668-1.26-.6025-1.7162-.4224-.4426-.9432-.664-1.5627-.664zm-.0206.7865c.3268 0 .6062.1056.8377.3166.2452.211.371.4734.378.7865h-2.4618c.0613-.3269.2077-.5925.4392-.7968.2313-.2042.5004-.3063.8069-.3063zm-11.4249.102c.6196 0 1.0146.2181 1.1848.6538v1.6854c-.1702.4358-.5755.6538-1.2155.6538-.3133 0-.5687-.0986-.7661-.2963-.2656-.2518-.3983-.6538-.3983-1.2053 0-.9941.3984-1.4914 1.1951-1.4914zm4.802 0c.6196 0 1.0148.2181 1.1851.6538h-.0002v1.6854c-.1703.4358-.5755.6538-1.2155.6538-.3132 0-.5686-.0986-.7661-.2963-.2655-.2518-.3983-.6538-.3983-1.2053 0-.9941.3983-1.4914 1.195-1.4914zm-8.3586 1.6547v1.0215c-.286.286-.6675.412-1.1441.3779-.1703-.0135-.32-.0663-.4493-.1582-.1294-.0919-.2045-.2129-.2249-.3627-.0341-.2657.1158-.47.4495-.6129.2452-.1088.7013-.1974 1.3688-.2656z"></path></svg></span><span class="section06-plus">+</span></div></li></ul></div></section>
+
+<section data-section="quiz-rules" class="section" id="section04" data-generated-section="section04">
+  <div class="container">
+    <div class="section03-intro">
+      <span class="m-label">(01) How It Works</span>
+      <h2 class="m-heading section03-title" data-motion="word-reveal">Three Rounds. One Arena.</h2>
+      <p class="text-muted section03-lede">Every round delivers 15 questions from cybersecurity, AI and general knowledge — each with a 30 second timer. Answer fast, think faster.</p>
+    </div>
+    <div class="quiz-rounds" data-motion="stagger-rise">
+      <div class="quiz-round quiz-round--easy" data-motion="hover-lift">
+        <span class="m-caption">Round 01</span>
+        <span class="quiz-round__level">Easy</span>
+        <ul class="quiz-list">
+          <li>15 questions · 30s each</li>
+          <li>+1000 per correct answer</li>
+          <li>&minus;500 per wrong answer</li>
+          <li>Warm-up: basics of cyber safety, AI terms &amp; world facts</li>
+        </ul>
+        <span class="quiz-final">Final Question · Double Points / &minus;1000</span>
+      </div>
+      <div class="quiz-round quiz-round--medium" data-motion="hover-lift">
+        <span class="m-caption">Round 02</span>
+        <span class="quiz-round__level">Medium</span>
+        <ul class="quiz-list">
+          <li>15 questions · 30s each</li>
+          <li>+1000 per correct answer</li>
+          <li>&minus;500 per wrong answer</li>
+          <li>Core concepts: encryption, neural nets &amp; logic</li>
+        </ul>
+        <span class="quiz-final">Final Question · Double Points / &minus;1000</span>
+      </div>
+      <div class="quiz-round quiz-round--hard" data-motion="hover-lift">
+        <span class="m-caption">Round 03</span>
+        <span class="quiz-round__level">Difficult</span>
+        <ul class="quiz-list">
+          <li>15 questions · 30s each</li>
+          <li>+1000 per correct answer</li>
+          <li>&minus;500 per wrong answer</li>
+          <li>Masterclass: exploits, ML theory &amp; expert trivia</li>
+        </ul>
+        <span class="quiz-final">Final Question · Double Points / &minus;1000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section data-section="quiz" class="cq" id="quiz" data-generated-section="quiz">
+  <div class="cq__inner">
+    <div class="section03-intro" style="margin-bottom:var(--gap-lg)">
+      <span class="m-label">(02) Play</span>
+      <h2 class="m-heading section03-title">Enter the Arena</h2>
+    </div>
+    <div class="cq__card" aria-live="polite">
+
+      <!-- Intro -->
+      <div class="cq__screen cq__center is-active" data-screen="intro">
+        <span class="m-caption">CyberQ Challenge</span>
+        <h2>45 Questions. 3 Rounds.</h2>
+        <p>Cybersecurity, AI and tech trivia. 30 seconds per question, +1000 for a correct answer, −500 for a wrong one. The final question of each round is worth double.</p>
+        <div class="cq__input"><input type="text" id="cq-name" placeholder="Enter your name" maxlength="24" autocomplete="off"></div>
+        <button class="cq__btn" id="cq-start" type="button">Start Round 01 →</button>
+        <div id="cq-board"></div>
+      </div>
+
+      <!-- Round intro -->
+      <div class="cq__screen cq__center" data-screen="round">
+        <span class="m-caption" id="cq-round-label">Round 01</span>
+        <h2 id="cq-round-name">Easy</h2>
+        <p id="cq-round-desc"></p>
+        <div class="cq__score" id="cq-round-score">0</div>
+        <button class="cq__btn" id="cq-round-go" type="button">Begin →</button>
+      </div>
+
+      <!-- Question -->
+      <div class="cq__screen" data-screen="question">
+        <div class="cq__head">
+          <div class="cq__meta">
+            <span id="cq-m-round">Round 01 · Easy</span>
+            <span>Q <b id="cq-m-idx">1</b>/15</span>
+            <span>Score <b id="cq-m-score">0</b></span>
+          </div>
+          <div class="cq__timer" id="cq-timer">
+            <svg viewBox="0 0 56 56"><circle class="track" cx="28" cy="28" r="26"/><circle class="bar" id="cq-timer-bar" cx="28" cy="28" r="26"/></svg>
+            <span id="cq-timer-num">30</span>
+          </div>
+        </div>
+        <div class="cq__progress"><i id="cq-progress"></i></div>
+        <span class="cq__topic" id="cq-topic"></span>
+        <h3 class="cq__q" id="cq-question"></h3>
+        <div class="cq__opts" id="cq-options"></div>
+        <div class="cq__feedback" id="cq-feedback"></div>
+        <div class="cq__actions"><button class="cq__btn" id="cq-next" type="button" disabled>Next →</button></div>
+      </div>
+
+      <!-- Round summary -->
+      <div class="cq__screen cq__center" data-screen="summary">
+        <span class="m-caption" id="cq-s-label">Round complete</span>
+        <h2 id="cq-s-title">Round 01 done</h2>
+        <div class="cq__stats">
+          <div class="cq__stat"><b id="cq-s-correct">0</b><span>Correct</span></div>
+          <div class="cq__stat"><b id="cq-s-wrong">0</b><span>Wrong</span></div>
+          <div class="cq__stat"><b id="cq-s-skipped">0</b><span>Timed out</span></div>
+          <div class="cq__stat"><b id="cq-s-points">0</b><span>Round points</span></div>
+        </div>
+        <div class="cq__score" id="cq-s-total">0</div>
+        <p>Total score so far</p>
+        <div class="cq__actions" style="justify-content:center"><button class="cq__btn" id="cq-s-next" type="button">Next Round →</button></div>
+      </div>
+
+      <!-- Final -->
+      <div class="cq__screen cq__center" data-screen="final">
+        <span class="m-caption">Game over</span>
+        <h2 id="cq-f-title">Final Score</h2>
+        <div class="cq__score" id="cq-f-total">0</div>
+        <p id="cq-f-msg"></p>
+        <div class="cq__stats">
+          <div class="cq__stat"><b id="cq-f-r1">0</b><span>Easy</span></div>
+          <div class="cq__stat"><b id="cq-f-r2">0</b><span>Medium</span></div>
+          <div class="cq__stat"><b id="cq-f-r3">0</b><span>Difficult</span></div>
+          <div class="cq__stat"><b id="cq-f-acc">0%</b><span>Accuracy</span></div>
+        </div>
+        <div class="cq__list" id="cq-f-board"></div>
+        <div class="cq__actions" style="justify-content:center;margin-top:var(--gap)">
+          <button class="cq__btn cq__btn--ghost" id="cq-review" type="button">Review Answers</button>
+          <button class="cq__btn" id="cq-restart" type="button">Play Again</button>
+        </div>
+        <div class="cq__list" id="cq-review-list" style="display:none;max-width:none"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section data-section="features" data-snippet="features.media-scroll-expand" data-owned-motion="" class="mse" id="section08" data-generated-section="section08">
+  <div class="mse__inner container">
+    <div class="mse__text" data-mse-text="" data-slot="">
+      <div class="cta-copy">
+        <span class="m-label">Get Started</span>
+        <h2 class="m-heading">Ready to Test Your Intelligence?</h2>
+        <p>Join thousands of players today.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="m-btn" href="#quiz" data-motion="button-circle-arrow">Play Now</a>
+      </div>
+    </div>
+    <div class="mse__media" data-mse-media="" data-slot="media"><img class="cta-shot" src="https://images.unsplash.com/photo-1604315841269-a1f298321670?w=1600&h=900&fit=crop&q=80" alt="Abstract representation of AI connectivity nodes."></div>
+  </div>
+</section>
+
+<footer data-section="footer" class="m-footer" id="section09" data-generated-section="section09"><div class="section09-inner"><div class="section09-cta flex-between"><h2 class="m-heading" data-motion="word-reveal">Join the Futuristic Arena</h2><a class="m-btn" href="#quiz" data-motion="button-circle-arrow">Register Now</a></div><div class="section09-grid" data-motion="stagger-rise"><div class="section09-brandcol"><a class="m-display section09-brand" href="/">CyberQ</a><span class="m-caption section09-brandnote">Quiz the Future.</span></div><nav class="section09-col" aria-label="Product"><h3 class="m-label">Product</h3><ul><li><a href="#section03" data-motion="link-underline-slide">Features</a></li><li><a href="#section05" data-motion="link-underline-slide">Use Cases</a></li><li><a href="#section06" data-motion="link-underline-slide">User Stories</a></li><li><a href="#section04" data-motion="link-underline-slide">Game Rules</a></li></ul></nav><nav class="section09-col" aria-label="Company"><h3 class="m-label">Company</h3><ul><li><a href="#section02" data-motion="link-underline-slide">About Us</a></li><li><a href="#section02" data-motion="link-underline-slide">Careers</a></li><li><a href="#section09" data-motion="link-underline-slide">Terms</a></li><li><a href="#section09" data-motion="link-underline-slide">Privacy</a></li></ul></nav><nav class="section09-col" aria-label="Connect"><h3 class="m-label">Connect</h3><ul><li><a href="#section06" data-motion="link-underline-slide">Blog</a></li><li><a href="#quiz" data-motion="link-underline-slide">Play</a></li><li><a href="#" data-motion="link-underline-slide">LinkedIn</a></li><li><a href="#" data-motion="link-underline-slide">X</a></li></ul></nav></div><div class="section09-mark"><span class="watermark-word section09-watermark">© 2024</span></div><div class="section09-legal"><p class="m-caption">All rights reserved.</p></div></div></footer>
+<script>
+(function(){var toggle=document.querySelector('.nav-toggle');var links=document.getElementById('nav-links');if(!toggle||!links){return;}function setState(open){links.classList.toggle('open',open);toggle.setAttribute('aria-expanded',open?'true':'false');toggle.setAttribute('aria-label',open?'Close menu':'Open menu');toggle.textContent=open?'\u2715':'\u2630';document.body.style.overflow=open?'hidden':'';}toggle.addEventListener('click',function(){setState(toggle.getAttribute('aria-expanded')!=='true');});links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setState(false);});});document.addEventListener('keydown',function(e){if(e.key==='Escape'){setState(false);}});window.addEventListener('resize',function(){if(window.innerWidth>768){setState(false);}});})();
+
+/* snippet: header.center-stack-reveal */
+document.querySelectorAll('[data-snippet="header.center-stack-reveal"]').forEach((root) => {
+  if (root.__csrvBound) return;
+  root.__csrvBound = true;
+
+  const play = () => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        root.setAttribute('data-csrv-state', 'in');
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', play, { once: true });
+  } else {
+    play();
+  }
+});
+
+/* snippet: features.tabs-media-overlay */
+document.querySelectorAll('[data-snippet="features.tabs-media-overlay"]').forEach((root) => {
+  if (root.__tmoBound) return;
+  root.__tmoBound = true;
+
+  const tabs = Array.from(root.querySelectorAll('[data-tmo-tab]'));
+  const panels = Array.from(root.querySelectorAll('[data-tmo-panel]'));
+  const nav = root.querySelector('.tmo__nav');
+  if (!tabs.length) return;
+
+  let current = 0;
+  let dots = [];
+
+  // Build slider nav (shown on mobile via CSS)
+  if (nav) {
+    const chevron = (dir) =>
+      `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="${dir === 'prev' ? '15 18 9 12 15 6' : '9 18 15 12 9 6'}"/></svg>`;
+
+    const prev = document.createElement('button');
+    prev.type = 'button';
+    prev.className = 'tmo__prev';
+    prev.setAttribute('aria-label', 'Previous');
+    prev.innerHTML = chevron('prev');
+
+    const dotsEl = document.createElement('div');
+    dotsEl.className = 'tmo__dots';
+    dots = panels.map((_, i) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.className = 'tmo__dot';
+      d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      d.addEventListener('click', () => setActive(i));
+      dotsEl.appendChild(d);
+      return d;
+    });
+
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'tmo__next';
+    next.setAttribute('aria-label', 'Next');
+    next.innerHTML = chevron('next');
+
+    prev.addEventListener('click', () => setActive((current - 1 + panels.length) % panels.length));
+    next.addEventListener('click', () => setActive((current + 1) % panels.length));
+
+    nav.appendChild(prev);
+    nav.appendChild(dotsEl);
+    nav.appendChild(next);
+  }
+
+  function setActive(i) {
+    current = i;
+    tabs.forEach((t, k) => t.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+    panels.forEach((p, k) => p.classList.toggle('is-active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+  }
+
+  tabs.forEach((t, i) => t.addEventListener('click', () => setActive(i)));
+
+  root.classList.add('tmo--ready');
+  requestAnimationFrame(() => setActive(0));
+});
+
+/* snippet: features.media-scroll-expand */
+(function () {
+  var TRIGGER_LINE = 0.35;
+  var RETURN_LINE = 0.45;
+
+  function setup(root) {
+    if (root.dataset.mseReady === 'true') return;
+    const text = root.querySelector('[data-mse-text]');
+    const media = root.querySelector('[data-mse-media]');
+    if (!text || !media) return;
+    root.dataset.mseReady = 'true';
+
+    const mqStatic = window.matchMedia('(max-width: 1024px)');
+    const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let armed = false;
+    let state = 'idle';
+
+    function onFade(e) {
+      if (e.target !== text || e.propertyName !== 'opacity') return;
+      text.removeEventListener('transitionend', onFade);
+      root.classList.add('mse--hidden');
+    }
+
+    function foldBack() {
+      text.removeEventListener('transitionend', onFade);
+      if (root.classList.contains('mse--hidden')) {
+        root.classList.remove('mse--hidden');
+        void text.offsetWidth;
+      }
+      root.classList.remove('mse--expanded');
+    }
+
+    function onScroll() {
+      if (mqStatic.matches || mqReduce.matches) return;
+      const rect = media.getBoundingClientRect();
+      if (!rect.height) return;
+      const vh = window.innerHeight;
+
+      if (state === 'idle') {
+        const center = rect.top + rect.height / 2;
+        if (center > vh * TRIGGER_LINE) { armed = true; return; }
+        if (!armed) return;
+        state = 'expanded';
+        text.addEventListener('transitionend', onFade);
+        root.classList.add('mse--expanded');
+      } else if (state === 'expanded') {
+        if (rect.top > vh * RETURN_LINE) {
+          state = 'done';
+          foldBack();
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+        }
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  }
+
+  function init() {
+    document.querySelectorAll('[data-snippet="features.media-scroll-expand"]').forEach(setup);
+  }
+
+  if (document.readyState !== 'loading') {
+    init();
+  } else {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+})();
+
+/* motion runtime: viewportOnce */
+(function () {
+  if (window.__mMotionReady) return;
+  window.__mMotionReady = true;
+  const targets = Array.from(document.querySelectorAll('[data-motion]'));
+  if (targets.length === 0) return;
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach((target) => target.classList.add('is-visible'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+  targets.forEach((target) => observer.observe(target));
+})();
+
+/* motion: button-circle-arrow */
+(function () {
+  const hosts = document.querySelectorAll('[data-motion~="button-circle-arrow"]');
+  if (!hosts.length) return;
+  const ARROW_SVG =
+    '<svg viewBox="0 0 23 19" class="bca__arrow"><polygon points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5"/></svg>';
+  const ARROW_DUP_SVG =
+    '<svg viewBox="0 0 23 19" class="bca__arrow bca__arrow--dup"><polygon points="13.5,18.7 12.1,17.3 18.9,10.5 0.3,10.5 0.3,8.5 18.9,8.5 12.1,1.7 13.5,0.3 22.7,9.5"/></svg>';
+  hosts.forEach((host) => {
+    if (host.dataset.bcaReady) return;
+    host.dataset.bcaReady = '1';
+    const label = (host.textContent || '').trim();
+    if (!label) return;
+    host.textContent = '';
+    const fill = document.createElement('span');
+    fill.className = 'bca__fill';
+    fill.setAttribute('aria-hidden', 'true');
+    host.appendChild(fill);
+    const labelEl = document.createElement('span');
+    labelEl.className = 'bca__label';
+    labelEl.textContent = label;
+    host.appendChild(labelEl);
+    const badge = document.createElement('span');
+    badge.className = 'bca__badge';
+    badge.setAttribute('aria-hidden', 'true');
+    badge.innerHTML = '<span class="bca__arrows">' + ARROW_SVG + ARROW_DUP_SVG + '</span>';
+    host.appendChild(badge);
+  });
+})();
+
+(function(){
+  var nav = document.querySelector('.m-nav');
+  if (!nav) return;
+  var stickyGap = 12;
+  var managedHeaderTargets = [];
+
+  function getFirstHeader() {
+    var first = nav.nextElementSibling;
+    if (!first || !first.matches('[data-section="header"], [data-section="hero"]')) return null;
+    return first;
+  }
+
+  function isExcludedHeaderTarget(element) {
+    if (element.matches && element.matches('[data-page-overlay], [data-crh-curtain]')) return true;
+    return false;
+  }
+
+  function restoreManagedHeaderTargets() {
+    managedHeaderTargets.forEach(function(target){
+      target.element.style.height = target.height;
+      target.element.style.minHeight = target.minHeight;
+    });
+    managedHeaderTargets = [];
+  }
+
+  function rememberHeaderTarget(element) {
+    if (managedHeaderTargets.some(function(target){ return target.element === element; })) return;
+    managedHeaderTargets.push({
+      element: element,
+      height: element.style.height,
+      minHeight: element.style.minHeight
+    });
+  }
+
+  function addHeaderTarget(targets, element, applyHeight, applyMinHeight) {
+    if (!element || targets.some(function(target){ return target.element === element; })) return;
+    if (isExcludedHeaderTarget(element)) return;
+    targets.push({ element: element, height: Boolean(applyHeight), minHeight: Boolean(applyMinHeight) });
+  }
+
+  function getHeaderTargets(first) {
+    var targets = [];
+    var rootNeedsFixedHeight = first.matches('[data-nav-aware-height]');
+    addHeaderTarget(targets, first, rootNeedsFixedHeight, true);
+    first.querySelectorAll('[data-nav-aware-viewport]').forEach(function(element){
+      var minOnly = element.getAttribute('data-nav-aware-viewport') === 'min';
+      addHeaderTarget(targets, element, !minOnly, true);
+    });
+    return targets;
+  }
+
+  function getNavMetrics() {
+    var navStyle = window.getComputedStyle(nav);
+    var navPosition = navStyle.position;
+    var navHeight = nav.getBoundingClientRect().height;
+    return {
+      height: navHeight,
+      consumesSpace: navPosition !== 'fixed' && navPosition !== 'absolute',
+      overlaysViewport: navPosition === 'fixed' || navPosition === 'sticky' || navPosition === 'absolute'
+    };
+  }
+
+  function applyNavAwareHeaderHeight(metrics) {
+    restoreManagedHeaderTargets();
+    var first = getFirstHeader();
+    if (!first) return;
+    var navHeight = metrics.consumesSpace ? metrics.height : 0;
+    var viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    var availableHeight = Math.max(0, Math.round(viewportHeight - navHeight));
+    getHeaderTargets(first).forEach(function(target){
+      rememberHeaderTarget(target.element);
+      if (target.minHeight) target.element.style.minHeight = availableHeight + 'px';
+      if (target.height) target.element.style.height = availableHeight + 'px';
+    });
+  }
+
+  function applyStickyOffsets(metrics) {
+    var navTop = metrics.overlaysViewport && metrics.height > 0 ? metrics.height + stickyGap : 0;
+    document.querySelectorAll('[data-sticky-under-nav]').forEach(function(element){
+      element.style.top = '';
+      var style = window.getComputedStyle(element);
+      if (style.position !== 'sticky') return;
+      var baseTop = parseFloat(style.top);
+      if (!Number.isFinite(baseTop)) return;
+      var safeTop = navTop > 0 ? Math.max(baseTop, navTop) : baseTop;
+      element.style.top = Math.round(safeTop) + 'px';
+    });
+  }
+
+  function applyNavAwareLayout() {
+    var metrics = getNavMetrics();
+    applyNavAwareHeaderHeight(metrics);
+    applyStickyOffsets(metrics);
+  }
+
+  applyNavAwareLayout();
+  window.addEventListener('resize', applyNavAwareLayout, { passive: true });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', applyNavAwareLayout, { passive: true });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(applyNavAwareLayout).catch(function(){});
+  }
+  if (window.ResizeObserver) {
+    new ResizeObserver(applyNavAwareLayout).observe(nav);
+  }
+})();
+</script>
+
+
+
+<script>
+/* =====================================================================
+   CyberQ quiz engine
+   ---------------------------------------------------------------------
+   To edit questions: change the CQ_ROUNDS data below. Each question is
+   { q: "text", options: ["A","B","C","D"], answer: <0-3 index>, topic: "Cyber|AI|GK" }
+   ===================================================================== */
+const CQ_CONFIG = {
+  secondsPerQuestion: 30,
+  pointsCorrect: 1000,
+  pointsWrong: -500,
+  finalQuestionMultiplier: 2,   // last question of every round is worth double (+2000 / -1000)
+  timeoutCountsAsWrong: false,  // set true if running out of time should also deduct points
+  leaderboardKey: 'cyberq_leaderboard'
+};
+const CQ_ROUNDS = [
+ {
+  "name": "Easy",
+  "label": "Round 01",
+  "questions": [
+   {
+    "q": "What does the 'S' in HTTPS stand for?",
+    "options": [
+     "Secure",
+     "Server",
+     "Standard",
+     "Speed"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "What does 'AI' stand for?",
+    "options": [
+     "Advanced Internet",
+     "Artificial Intelligence",
+     "Automated Interface",
+     "Analog Input"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "Which of these is the STRONGEST password?",
+    "options": [
+     "12345678",
+     "qwerty",
+     "T!g3r$Run_2026",
+     "password123"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Phishing is best described as…",
+    "options": [
+     "A hardware firewall",
+     "A type of antivirus software",
+     "Catching data packets on a network",
+     "Tricking people into revealing sensitive info via fake messages"
+    ],
+    "answer": 3,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Which company created ChatGPT?",
+    "options": [
+     "Microsoft",
+     "OpenAI",
+     "Meta",
+     "Google"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "What is a computer virus?",
+    "options": [
+     "A malicious program that spreads by copying itself",
+     "A hardware failure",
+     "A slow internet connection",
+     "A browser extension"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Two-factor authentication (2FA) means…",
+    "options": [
+     "Changing your password twice a year",
+     "Logging in from two devices",
+     "Using two different passwords",
+     "Verifying identity with a second step, like an OTP"
+    ],
+    "answer": 3,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Which of these is an AI-powered voice assistant?",
+    "options": [
+     "Excel",
+     "Chrome",
+     "Siri",
+     "Photoshop"
+    ],
+    "answer": 2,
+    "topic": "AI"
+   },
+   {
+    "q": "What does a firewall do?",
+    "options": [
+     "Cools down the CPU",
+     "Backs up your files",
+     "Speeds up downloads",
+     "Monitors and filters network traffic"
+    ],
+    "answer": 3,
+    "topic": "Cyber"
+   },
+   {
+    "q": "A padlock icon in the browser address bar means…",
+    "options": [
+     "The site has no ads",
+     "The website is government approved",
+     "The connection is encrypted",
+     "Your device is locked"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "CAPTCHA is mainly used to…",
+    "options": [
+     "Compress images",
+     "Encrypt passwords",
+     "Tell humans apart from bots",
+     "Block pop-ups"
+    ],
+    "answer": 2,
+    "topic": "GK"
+   },
+   {
+    "q": "Who is known as the 'father of computer science' and proposed a famous test for machine intelligence?",
+    "options": [
+     "Alan Turing",
+     "Tim Berners-Lee",
+     "Steve Jobs",
+     "Bill Gates"
+    ],
+    "answer": 0,
+    "topic": "GK"
+   },
+   {
+    "q": "You receive an unexpected email with a .exe attachment. What should you do?",
+    "options": [
+     "Do not open it and report it",
+     "Open it to check what it is",
+     "Rename it and open it",
+     "Forward it to friends"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "What does a VPN do?",
+    "options": [
+     "Increases screen brightness",
+     "Encrypts your internet connection and hides your IP",
+     "Deletes viruses",
+     "Makes your computer faster"
+    ],
+    "answer": 1,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Which Google DeepMind AI famously defeated world champion Lee Sedol at the board game Go in 2016?",
+    "options": [
+     "Siri",
+     "AlphaGo",
+     "Watson",
+     "Deep Blue"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   }
+  ]
+ },
+ {
+  "name": "Medium",
+  "label": "Round 02",
+  "questions": [
+   {
+    "q": "An attack that floods a server with traffic from many machines to make it unavailable is called…",
+    "options": [
+     "Phishing",
+     "Spoofing",
+     "DDoS",
+     "SQL Injection"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Ransomware typically…",
+    "options": [
+     "Slows your internet",
+     "Steals your Wi-Fi password",
+     "Encrypts your files and demands payment",
+     "Displays ads"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "In machine learning, 'overfitting' means the model…",
+    "options": [
+     "Runs too slowly",
+     "Is too small to learn",
+     "Uses too little data",
+     "Memorises training data but performs poorly on new data"
+    ],
+    "answer": 3,
+    "topic": "AI"
+   },
+   {
+    "q": "Which of these is a SYMMETRIC encryption algorithm?",
+    "options": [
+     "AES",
+     "ECC",
+     "Diffie-Hellman",
+     "RSA"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "The 'CIA triad' in security stands for…",
+    "options": [
+     "Control, Inspect, Audit",
+     "Central Intelligence Agency",
+     "Cipher, Identity, Access",
+     "Confidentiality, Integrity, Availability"
+    ],
+    "answer": 3,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Artificial neural networks are loosely inspired by…",
+    "options": [
+     "The human brain's neurons",
+     "Ant colonies",
+     "Electrical circuits",
+     "Weather patterns"
+    ],
+    "answer": 0,
+    "topic": "AI"
+   },
+   {
+    "q": "SQL injection is an attack where…",
+    "options": [
+     "Network cables are tapped",
+     "A database server is physically stolen",
+     "Malicious SQL is inserted through input fields",
+     "Passwords are guessed repeatedly"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "What does GPT stand for?",
+    "options": [
+     "Graphical Prediction Test",
+     "Generative Pre-trained Transformer",
+     "General Purpose Technology",
+     "Global Processing Tool"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "Social engineering attacks primarily exploit…",
+    "options": [
+     "Human psychology and trust",
+     "Hardware flaws",
+     "Weak encryption",
+     "Software bugs"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Which type of machine learning trains an agent using rewards and penalties?",
+    "options": [
+     "Supervised learning",
+     "Reinforcement learning",
+     "Unsupervised learning",
+     "Transfer learning"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "The 2017 WannaCry ransomware spread using which exploit?",
+    "options": [
+     "EternalBlue",
+     "Heartbleed",
+     "Shellshock",
+     "Log4Shell"
+    ],
+    "answer": 0,
+    "topic": "GK"
+   },
+   {
+    "q": "A 'zero-day' vulnerability is one that…",
+    "options": [
+     "Was fixed on day zero",
+     "Is unknown to the vendor and has no patch yet",
+     "Only affects new devices",
+     "Takes zero days to exploit"
+    ],
+    "answer": 1,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Which of these is NOT a hashing algorithm?",
+    "options": [
+     "SHA-256",
+     "MD5",
+     "RSA",
+     "SHA-1"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "The Turing Test evaluates whether a machine can…",
+    "options": [
+     "Solve maths faster than humans",
+     "Beat humans at chess",
+     "Recognise images",
+     "Exhibit behaviour indistinguishable from a human in conversation"
+    ],
+    "answer": 3,
+    "topic": "AI"
+   },
+   {
+    "q": "Which landmark 2017 paper introduced the Transformer architecture behind modern AI models?",
+    "options": [
+     "Deep Residual Learning",
+     "Attention Is All You Need",
+     "Playing Atari with Deep RL",
+     "ImageNet Classification with Deep CNNs"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   }
+  ]
+ },
+ {
+  "name": "Difficult",
+  "label": "Round 03",
+  "questions": [
+   {
+    "q": "The Stuxnet worm (discovered 2010) was designed to sabotage…",
+    "options": [
+     "Airline booking systems",
+     "Banking ATMs",
+     "Siemens PLCs controlling Iranian uranium centrifuges",
+     "Power grid smart meters"
+    ],
+    "answer": 2,
+    "topic": "GK"
+   },
+   {
+    "q": "The security of RSA relies on the difficulty of…",
+    "options": [
+     "Factoring the product of two large primes",
+     "Computing discrete logarithms on elliptic curves",
+     "Inverting SHA-256",
+     "Solving the travelling salesman problem"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "The 'vanishing gradient' problem is most associated with…",
+    "options": [
+     "k-Nearest Neighbours",
+     "Very deep networks using sigmoid/tanh activations",
+     "Linear regression",
+     "Decision trees"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "Adding a 'salt' to password hashes primarily defends against…",
+    "options": [
+     "Brute-force on the login page",
+     "Man-in-the-middle attacks",
+     "Precomputed rainbow-table attacks",
+     "SQL injection"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Heartbleed (2014) was a critical bug in which software?",
+    "options": [
+     "Bash shell",
+     "Apache Log4j",
+     "OpenSSL's TLS heartbeat extension",
+     "Windows SMBv1"
+    ],
+    "answer": 2,
+    "topic": "GK"
+   },
+   {
+    "q": "Backpropagation is an algorithm that…",
+    "options": [
+     "Randomly initialises weights",
+     "Computes loss gradients w.r.t. weights using the chain rule",
+     "Compresses a trained model",
+     "Splits data into train/test sets"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "Adding tiny, imperceptible perturbations to an image to fool a classifier is called…",
+    "options": [
+     "Membership inference",
+     "An adversarial example",
+     "Model inversion",
+     "Data poisoning"
+    ],
+    "answer": 1,
+    "topic": "AI"
+   },
+   {
+    "q": "In AES-256, what are the key size and block size respectively?",
+    "options": [
+     "256-bit key, 128-bit block",
+     "256-bit key, 256-bit block",
+     "512-bit key, 128-bit block",
+     "128-bit key, 256-bit block"
+    ],
+    "answer": 0,
+    "topic": "Cyber"
+   },
+   {
+    "q": "A Generative Adversarial Network (GAN) consists of which two competing networks?",
+    "options": [
+     "Actor and Critic",
+     "Teacher and Student",
+     "Encoder and Decoder",
+     "Generator and Discriminator"
+    ],
+    "answer": 3,
+    "topic": "AI"
+   },
+   {
+    "q": "Log4Shell (CVE-2021-44228) was a remote code execution flaw in…",
+    "options": [
+     "OpenSSH",
+     "Nginx",
+     "Apache Log4j",
+     "Java's JVM itself"
+    ],
+    "answer": 2,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Kerckhoffs's principle states that a cryptosystem should remain secure even if…",
+    "options": [
+     "The ciphertext is very short",
+     "The attacker has unlimited computing power",
+     "The key is leaked",
+     "Everything about it except the key is public"
+    ],
+    "answer": 3,
+    "topic": "Cyber"
+   },
+   {
+    "q": "Who coined the term 'Artificial Intelligence' for the 1956 Dartmouth workshop?",
+    "options": [
+     "John McCarthy",
+     "Claude Shannon",
+     "Alan Turing",
+     "Marvin Minsky"
+    ],
+    "answer": 0,
+    "topic": "GK"
+   },
+   {
+    "q": "Spectre and Meltdown (2018) exploited which CPU feature?",
+    "options": [
+     "ECC memory",
+     "Speculative execution",
+     "Thermal throttling",
+     "Hyper-threading"
+    ],
+    "answer": 1,
+    "topic": "Cyber"
+   },
+   {
+    "q": "In a Transformer, the self-attention mechanism computes…",
+    "options": [
+     "Weighted relevance scores between every pair of tokens in a sequence",
+     "Convolutions over word windows",
+     "A fixed positional embedding",
+     "A recurrent hidden state"
+    ],
+    "answer": 0,
+    "topic": "AI"
+   },
+   {
+    "q": "The Perceptron, one of the earliest artificial neural networks (1958), was invented by…",
+    "options": [
+     "Yann LeCun",
+     "Geoffrey Hinton",
+     "Warren McCulloch",
+     "Frank Rosenblatt"
+    ],
+    "answer": 3,
+    "topic": "GK"
+   }
+  ]
+ }
+];
+const CQ_ROUND_DESC = ["Warm-up: basics of cyber safety, AI terms & tech facts.",
+                       "Core concepts: encryption, neural nets & notable attacks.",
+                       "Masterclass: exploits, ML theory & expert trivia."];
+
+(function(){
+  const $ = id => document.getElementById(id);
+  const screens = document.querySelectorAll('.cq__screen');
+  const show = name => screens.forEach(s => s.classList.toggle('is-active', s.dataset.screen === name));
+  const CIRC = 2 * Math.PI * 26;
+
+  let state;
+  function reset(){
+    state = { round:0, idx:0, total:0, roundPts:[0,0,0], correct:0, answered:0,
+              player:'', timer:null, timeLeft:0, log:[], locked:false,
+              rs:{correct:0,wrong:0,skipped:0,points:0} };
+  }
+  reset();
+
+  const fmt = n => (n>0?'+':'') + n.toLocaleString();
+  const pointsFor = (isLast) => ({
+    ok:  CQ_CONFIG.pointsCorrect * (isLast ? CQ_CONFIG.finalQuestionMultiplier : 1),
+    bad: CQ_CONFIG.pointsWrong   * (isLast ? CQ_CONFIG.finalQuestionMultiplier : 1)
+  });
+
+  // ---------- flow
+  $('cq-start').onclick = () => {
+    state.player = ($('cq-name').value || 'Player').trim().slice(0,24);
+    startRound(0);
+  };
+  $('cq-round-go').onclick = () => { state.idx = 0; state.rs={correct:0,wrong:0,skipped:0,points:0}; renderQuestion(); };
+  $('cq-next').onclick = next;
+  $('cq-s-next').onclick = () => startRound(state.round + 1);
+  $('cq-restart').onclick = () => { reset(); $('cq-review-list').style.display='none'; renderBoard($('cq-board')); show('intro'); };
+  $('cq-review').onclick = () => { const l=$('cq-review-list'); l.style.display = l.style.display==='none' ? 'block':'none'; };
+
+  function startRound(r){
+    state.round = r;
+    const R = CQ_ROUNDS[r];
+    $('cq-round-label').textContent = R.label;
+    $('cq-round-name').textContent = R.name;
+    $('cq-round-desc').textContent = CQ_ROUND_DESC[r] + (r===0 ? '' : ' Your score carries over.');
+    $('cq-round-score').textContent = state.total.toLocaleString();
+    $('cq-round-go').textContent = r===0 ? 'Begin →' : 'Begin ' + R.label + ' →';
+    show('round');
+    document.getElementById('quiz').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function shuffleAll(){
+    CQ_ROUNDS.forEach(r => r.questions.forEach(q => {
+      const correct = q.options[q.answer];
+      for (let i = q.options.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [q.options[i], q.options[j]] = [q.options[j], q.options[i]]; }
+      q.answer = q.options.indexOf(correct);
+    }));
+  }
+  shuffleAll();
+
+  function renderQuestion(){
+    const R = CQ_ROUNDS[state.round], Q = R.questions[state.idx];
+    const isLast = state.idx === R.questions.length - 1;
+    state.locked = false;
+    $('cq-m-round').textContent = R.label + ' · ' + R.name;
+    $('cq-m-idx').textContent = state.idx + 1;
+    $('cq-m-score').textContent = state.total.toLocaleString();
+    $('cq-progress').style.width = (state.idx / R.questions.length * 100) + '%';
+    $('cq-topic').innerHTML = Q.topic + (isLast ? '<span class="cq__bonus">Final · Double Points</span>' : '');
+    $('cq-question').textContent = Q.q;
+    $('cq-feedback').textContent = '';
+    $('cq-feedback').className = 'cq__feedback';
+    $('cq-next').disabled = true;
+    $('cq-next').textContent = isLast ? (state.round === CQ_ROUNDS.length-1 ? 'Finish →' : 'Round Summary →') : 'Next →';
+
+    const box = $('cq-options'); box.innerHTML = '';
+    Q.options.forEach((opt,i) => {
+      const b = document.createElement('button');
+      b.type='button'; b.className='cq__opt';
+      b.innerHTML = '<small>' + 'ABCD'[i] + '</small><span></span>';
+      b.querySelector('span').textContent = opt;
+      b.onclick = () => answer(i);
+      box.appendChild(b);
+    });
+    show('question');
+    startTimer();
+  }
+
+  function startTimer(){
+    clearInterval(state.timer);
+    state.timeLeft = CQ_CONFIG.secondsPerQuestion;
+    paintTimer();
+    state.timer = setInterval(() => {
+      state.timeLeft--;
+      paintTimer();
+      if (state.timeLeft <= 0){ clearInterval(state.timer); answer(-1); }
+    }, 1000);
+  }
+  function paintTimer(){
+    const t = state.timeLeft, T = CQ_CONFIG.secondsPerQuestion;
+    $('cq-timer-num').textContent = t;
+    $('cq-timer-bar').style.strokeDashoffset = CIRC * (1 - t / T);
+    $('cq-timer').classList.toggle('is-low', t <= 10);
+  }
+
+  function answer(choice){
+    if (state.locked) return;
+    state.locked = true;
+    clearInterval(state.timer);
+    const R = CQ_ROUNDS[state.round], Q = R.questions[state.idx];
+    const isLast = state.idx === R.questions.length - 1;
+    const pts = pointsFor(isLast);
+    const opts = $('cq-options').children;
+    let delta = 0, verdict;
+
+    if (choice === Q.answer){ delta = pts.ok; verdict='correct'; state.correct++; state.rs.correct++; }
+    else if (choice === -1){ delta = CQ_CONFIG.timeoutCountsAsWrong ? pts.bad : 0; verdict='timeout'; state.rs.skipped++; }
+    else { delta = pts.bad; verdict='wrong'; state.rs.wrong++; }
+
+    state.answered++;
+    state.total += delta; state.roundPts[state.round] += delta; state.rs.points += delta;
+    state.log.push({round:R.name, q:Q.q, chosen: choice>=0 ? Q.options[choice] : '— (timed out)', correct:Q.options[Q.answer], verdict, delta});
+
+    [...opts].forEach((b,i) => {
+      b.disabled = true;
+      if (i === Q.answer) b.classList.add('is-correct');
+      else if (i === choice) b.classList.add('is-wrong');
+    });
+    const fb = $('cq-feedback');
+    fb.textContent = verdict==='correct' ? 'Correct  ' + fmt(delta)
+                   : verdict==='timeout' ? 'Time\'s up  ' + fmt(delta) + '  ·  Answer: ' + 'ABCD'[Q.answer]
+                   : 'Wrong  ' + fmt(delta) + '  ·  Answer: ' + 'ABCD'[Q.answer];
+    fb.className = 'cq__feedback ' + (verdict==='correct' ? 'ok' : 'bad');
+    $('cq-m-score').textContent = state.total.toLocaleString();
+    $('cq-next').disabled = false;
+    $('cq-next').focus();
+  }
+
+  function next(){
+    const R = CQ_ROUNDS[state.round];
+    if (state.idx + 1 < R.questions.length){ state.idx++; renderQuestion(); return; }
+    // round finished
+    $('cq-s-label').textContent = R.label + ' complete';
+    $('cq-s-title').textContent = R.name + ' round done';
+    $('cq-s-correct').textContent = state.rs.correct;
+    $('cq-s-wrong').textContent = state.rs.wrong;
+    $('cq-s-skipped').textContent = state.rs.skipped;
+    $('cq-s-points').textContent = fmt(state.rs.points);
+    $('cq-s-total').textContent = state.total.toLocaleString();
+    if (state.round + 1 < CQ_ROUNDS.length){ show('summary'); }
+    else finish();
+  }
+
+  function finish(){
+    const totalQ = CQ_ROUNDS.reduce((n,r)=>n+r.questions.length,0);
+    const acc = Math.round(state.correct / totalQ * 100);
+    $('cq-f-title').textContent = state.player + ', your final score';
+    $('cq-f-total').textContent = state.total.toLocaleString();
+    $('cq-f-r1').textContent = fmt(state.roundPts[0]);
+    $('cq-f-r2').textContent = fmt(state.roundPts[1]);
+    $('cq-f-r3').textContent = fmt(state.roundPts[2]);
+    $('cq-f-acc').textContent = acc + '%';
+    $('cq-f-msg').textContent = acc >= 90 ? 'Elite. You could run a SOC and train a model before lunch.'
+                              : acc >= 70 ? 'Strong showing — you know your threats from your transformers.'
+                              : acc >= 50 ? 'Solid base. A few more patches and you\'re there.'
+                              : 'Every expert started somewhere. Run it back!';
+    saveScore();
+    renderBoard($('cq-f-board'), true);
+    // review list
+    const rl = $('cq-review-list');
+    rl.innerHTML = '<h3 style="margin:1rem 0">Answer review</h3>' + state.log.map((e,i) =>
+      '<div class="cq__rank" style="flex-direction:column;align-items:flex-start;gap:.25rem">' +
+      '<span style="color:var(--color-muted);font-size:.75rem">' + (i+1) + ' · ' + e.round + ' · ' + fmt(e.delta) + '</span>' +
+      '<span>' + esc(e.q) + '</span>' +
+      '<span style="font-size:.8rem;color:' + (e.verdict==='correct' ? '#3ddc84' : '#ff5f56') + '">You: ' + esc(e.chosen) + (e.verdict!=='correct' ? ' · Correct: ' + esc(e.correct) : '') + '</span></div>'
+    ).join('');
+    show('final');
+    document.getElementById('quiz').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  // ---------- leaderboard (localStorage)
+  function loadBoard(){ try { return JSON.parse(localStorage.getItem(CQ_CONFIG.leaderboardKey)) || []; } catch(e){ return []; } }
+  function saveScore(){
+    const b = loadBoard();
+    b.push({ name: state.player, score: state.total, ts: Date.now() });
+    b.sort((a,c)=>c.score-a.score);
+    try { localStorage.setItem(CQ_CONFIG.leaderboardKey, JSON.stringify(b.slice(0,10))); } catch(e){}
+  }
+  function renderBoard(el, highlight){
+    const b = loadBoard(); if (!el) return;
+    if (!b.length){ el.innerHTML=''; return; }
+    el.innerHTML = '<div class="cq__list"><h3 class="m-label" style="margin-bottom:.75rem">Leaderboard</h3>' +
+      b.slice(0,5).map((e,i)=>'<div class="cq__rank' + (highlight && e.name===state.player && e.score===state.total ? ' is-you':'') + '"><span>' + (i+1) + '. ' + esc(e.name) + '</span><b>' + e.score.toLocaleString() + '</b></div>').join('') + '</div>';
+  }
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  renderBoard($('cq-board'));
+
+  // keyboard: 1-4 / A-D to answer, Enter for next
+  document.addEventListener('keydown', e => {
+    if (!document.querySelector('[data-screen="question"]').classList.contains('is-active')) return;
+    const k = e.key.toUpperCase();
+    const i = '1234'.indexOf(k) >= 0 ? '1234'.indexOf(k) : 'ABCD'.indexOf(k);
+    if (i >= 0 && !state.locked) answer(i);
+    if (e.key === 'Enter' && state.locked) next();
+  });
+})();
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a366f26dcc43ff6b',t:'MTc4ODYyOTI3MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
