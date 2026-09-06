@@ -1374,14 +1374,14 @@ hr { border: 0; height: 1px; background: var(--color-border); }
     <div class="section03-intro">
       <span class="m-label">(01) How It Works</span>
       <h2 class="m-heading section03-title" data-motion="word-reveal">Three Rounds. One Arena.</h2>
-      <p class="text-muted section03-lede">Every round delivers 15 questions from cybersecurity, AI and general knowledge — each with a 30 second timer. Answer fast, think faster.</p>
+      <p class="text-muted section03-lede">Every round delivers 15 questions from cybersecurity, AI and general knowledge — each with a 10 second timer. Answer fast, think faster.</p>
     </div>
     <div class="quiz-rounds" data-motion="stagger-rise">
       <div class="quiz-round quiz-round--easy" data-motion="hover-lift">
         <span class="m-caption">Round 01</span>
         <span class="quiz-round__level">Easy</span>
         <ul class="quiz-list">
-          <li>15 questions · 30s each</li>
+          <li>15 questions · 10s each</li>
           <li>+1000 per correct answer</li>
           <li>&minus;500 per wrong answer</li>
           <li>Warm-up: basics of cyber safety, AI terms &amp; world facts</li>
@@ -1392,7 +1392,7 @@ hr { border: 0; height: 1px; background: var(--color-border); }
         <span class="m-caption">Round 02</span>
         <span class="quiz-round__level">Medium</span>
         <ul class="quiz-list">
-          <li>15 questions · 30s each</li>
+          <li>15 questions · 10s each</li>
           <li>+1000 per correct answer</li>
           <li>&minus;500 per wrong answer</li>
           <li>Core concepts: encryption, neural nets &amp; logic</li>
@@ -1403,7 +1403,7 @@ hr { border: 0; height: 1px; background: var(--color-border); }
         <span class="m-caption">Round 03</span>
         <span class="quiz-round__level">Difficult</span>
         <ul class="quiz-list">
-          <li>15 questions · 30s each</li>
+          <li>15 questions · 10s each</li>
           <li>+1000 per correct answer</li>
           <li>&minus;500 per wrong answer</li>
           <li>Masterclass: exploits, ML theory &amp; expert trivia</li>
@@ -1427,7 +1427,7 @@ hr { border: 0; height: 1px; background: var(--color-border); }
       <div class="cq__screen cq__center is-active" data-screen="intro">
         <span class="m-caption">CyberQ Challenge</span>
         <h2>45 Questions. 3 Rounds.</h2>
-        <p>Cybersecurity, AI and tech trivia. 30 seconds per question, +1000 for a correct answer, −500 for a wrong one. The final question of each round is worth double.</p>
+        <p>Cybersecurity, AI and tech trivia. 10 seconds per question, +1000 for a correct answer, −500 for a wrong one. The final question of each round is worth double.</p>
         <div class="cq__input"><input type="text" id="cq-name" placeholder="Enter your name" maxlength="24" autocomplete="off"></div>
         <button class="cq__btn" id="cq-start" type="button">Start Round 01 →</button>
         <div id="cq-board"></div>
@@ -1452,7 +1452,7 @@ hr { border: 0; height: 1px; background: var(--color-border); }
           </div>
           <div class="cq__timer" id="cq-timer">
             <svg viewBox="0 0 56 56"><circle class="track" cx="28" cy="28" r="26"/><circle class="bar" id="cq-timer-bar" cx="28" cy="28" r="26"/></svg>
-            <span id="cq-timer-num">30</span>
+            <span id="cq-timer-num">10</span>
           </div>
         </div>
         <div class="cq__progress"><i id="cq-progress"></i></div>
@@ -1844,7 +1844,7 @@ document.querySelectorAll('[data-snippet="features.tabs-media-overlay"]').forEac
    { q: "text", options: ["A","B","C","D"], answer: <0-3 index>, topic: "Cyber|AI|GK" }
    ===================================================================== */
 const CQ_CONFIG = {
-  secondsPerQuestion: 30,
+  secondsPerQuestion: 10,
   pointsCorrect: 1000,
   pointsWrong: -500,
   finalQuestionMultiplier: 2,   // last question of every round is worth double (+2000 / -1000)
@@ -2464,7 +2464,7 @@ const CQ_ROUND_DESC = ["Warm-up: basics of cyber safety, AI terms & tech facts."
     const t = state.timeLeft, T = CQ_CONFIG.secondsPerQuestion;
     $('cq-timer-num').textContent = t;
     $('cq-timer-bar').style.strokeDashoffset = CIRC * (1 - t / T);
-    $('cq-timer').classList.toggle('is-low', t <= 10);
+    $('cq-timer').classList.toggle('is-low', t <= 3);
   }
 
   function answer(choice){
@@ -2570,4 +2570,4 @@ const CQ_ROUND_DESC = ["Warm-up: basics of cyber safety, AI terms & tech facts."
 })();
 </script>
 
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a366f26dcc43ff6b',t:'MTc4ODYyOTI3MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a36f86c119c83b85',t:'MTc4ODcxOTIzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html>
